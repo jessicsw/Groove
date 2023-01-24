@@ -19,6 +19,7 @@ const run = async () => {
               url: song.url,
             })),
           },
+          image: artist.image,
         },
       });
     })
@@ -31,6 +32,8 @@ const run = async () => {
     create: {
       email: "user@test.com",
       password: bcrypt.hashSync("password", salt),
+      firstName: "Jessica",
+      lastName: "Wong",
     },
   });
 

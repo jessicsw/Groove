@@ -1,6 +1,9 @@
+const imageColors = ["red", "blue", "purple", "yellow", "lime"];
+
 export const artistsData: {
   name: string;
   songs: any[];
+  image: string;
 }[] = [
   {
     name: "Glitch",
@@ -12,6 +15,7 @@ export const artistsData: {
         url: "https://dl.dropboxusercontent.com/s/7xmpwvvek6szx5n/fermi-paradox.mp3?dl=0",
       },
     ],
+    image: imageColors[Math.floor(Math.random() * imageColors.length)],
   },
   {
     name: "Purple Cat",
@@ -22,6 +26,7 @@ export const artistsData: {
         url: "https://dl.dropboxusercontent.com/s/9h90r7ku3df5o9y/long-day.mp3?dl=0",
       },
     ],
+    image: imageColors[Math.floor(Math.random() * imageColors.length)],
   },
   {
     name: "Ben Sound",
@@ -32,6 +37,7 @@ export const artistsData: {
         url: "https://dl.dropboxusercontent.com/s/7dh5o3kfjcz0nh3/The-Elevator-Bossa-Nova.mp3?dl=0",
       },
     ],
+    image: imageColors[Math.floor(Math.random() * imageColors.length)],
   },
   {
     name: "LiQWYD",
@@ -42,6 +48,7 @@ export const artistsData: {
         url: "https://dl.dropboxusercontent.com/s/tlx2zev0as500ki/winter.mp3?dl=0",
       },
     ],
+    image: imageColors[Math.floor(Math.random() * imageColors.length)],
   },
   {
     name: "FSM Team",
@@ -58,5 +65,6 @@ export const artistsData: {
         url: "https://dl.dropboxusercontent.com/s/9b43fr6epbgji4f/astronaut-in-a-submarine.mp3?dl=0",
       },
     ],
+    image: imageColors[Math.floor(Math.random() * imageColors.length)],
   },
 ];
