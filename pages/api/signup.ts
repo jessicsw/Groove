@@ -10,7 +10,7 @@ export default async function signUp(
   res: NextApiResponse
 ) {
   const salt = bcrypt.genSaltSync();
-  const { email, password } = req.body;
+  const { email, password, firstName, lastName } = req.body;
 
   let user;
 
@@ -19,6 +19,8 @@ export default async function signUp(
       data: {
         email,
         password: bcrypt.hashSync(password, salt),
+        firstName,
+        lastName,
       },
     });
   } catch (e) {
