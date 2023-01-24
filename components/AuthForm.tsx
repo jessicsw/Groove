@@ -17,9 +17,7 @@ const AuthForm = ({ mode }: { mode: "signin" | "signup" }) => {
     const user = await auth(mode, { email, password });
 
     setIsLoading(false);
-    if (user.ok) {
-      router.push("/");
-    }
+    router.push("/");
   };
 
   return (
@@ -65,7 +63,6 @@ const AuthForm = ({ mode }: { mode: "signin" | "signup" }) => {
           </button>
         </form>
       </div>
-      <div className=""></div>
     </div>
   );
 };
