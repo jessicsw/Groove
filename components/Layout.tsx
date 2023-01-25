@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import Sidebar from "./Sidebar";
 import GradientLayout from "./GradientLayout";
+import PlayerBar from "./PlayerBar";
 
 const Layout = ({ children }: { children: ReactElement }) => {
   return (
@@ -9,7 +10,9 @@ const Layout = ({ children }: { children: ReactElement }) => {
         <Sidebar />
       </div>
       <div className="ml-[250px] h-[calc(100vh-100px)]">{children}</div>
-      <div className="absolute left-0 bottom-0">player</div>
+      <div className="absolute left-0 bottom-0 h-[100px] w-full">
+        <PlayerBar />
+      </div>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { usePlaylist } from "../lib/hooks";
 
 const Playlist = () => {
-  const { playlists } = usePlaylist();
+  const { playlists, isError } = usePlaylist();
   return (
     <ul className="h-[60.9%] overflow-y-auto">
       {playlists.map((playlist) => (
