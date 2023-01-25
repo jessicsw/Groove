@@ -1,5 +1,6 @@
 import { AiOutlineClockCircle, AiFillPlayCircle } from "react-icons/ai";
 import { IoPlayCircleSharp } from "react-icons/io5";
+import { formatTime, formatDate } from "../lib/formatters";
 
 const songsTable = ({ songs }) => {
   return (
@@ -14,26 +15,36 @@ const songsTable = ({ songs }) => {
 
       <table className="w-full">
         <thead>
-          <tr className="border-b-[1px] border-slate-200 text-left text-[12px]">
+          <tr className="text-left text-[12px]">
             <th scope="col" className="pl-5 text-[15px] font-normal">
               #
             </th>
-            <th scope="col" className=" font-normal">
+            <th scope="col" className="font-normal">
               TITLE
             </th>
-            <th scope="col" className=" font-normal">
+            <th scope="col" className="font-normal">
               DATE ADDED
             </th>
-            <th scope="col" className=" text-[15px] font-normal">
+            <th scope="col" className="text-[15px] font-normal">
               <AiOutlineClockCircle />
             </th>
+          </tr>
+          <tr className="border-b-[1px] border-slate-200 ">
+            <td>
+              <div className="h-2" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div className="h-4" />
+            </td>
           </tr>
         </thead>
         <tbody>
           {/* check if padding is needed after creating div for album + song name + artist name */}
           {songs.map((song, index) => (
-            <tr className="hover:bg-white hover:bg-opacity-20">
-              <td className="pl-5">{index + 1}</td>
+            <tr key={song.id} className="hover:bg-white hover:bg-opacity-20">
+              <td className="rounded-l pl-5">{index + 1}</td>
               <td className=" flex items-center">
                 <img
                   src={`https://picsum.photos/40?random=${song.id}`}
@@ -47,8 +58,8 @@ const songsTable = ({ songs }) => {
                   </div>
                 </div>
               </td>
-              <td className="">{song.createdAt}</td>
-              <td className="">{song.duration} seconds</td>
+              <td className="">{formatDate(song.createdAt)}</td>
+              <td className="rounded-r">{formatTime(song.duration)}</td>
             </tr>
           ))}
         </tbody>
