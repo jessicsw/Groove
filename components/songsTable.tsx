@@ -16,6 +16,8 @@ const songsTable = ({ songs }) => {
     playSongs(songs);
   };
 
+  console.log(songs[0]);
+
   return (
     <div className="bg-transparent text-gray-300">
       <div className="relative mb-10">
@@ -64,7 +66,7 @@ const songsTable = ({ songs }) => {
               <td className="rounded-l pl-5">{index + 1}</td>
               <td className=" flex items-center">
                 <img
-                  src={`https://picsum.photos/40?random=${song.id}`}
+                  src={song.artist.image}
                   alt="album cover"
                   className="h-10 w-10"
                 />

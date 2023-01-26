@@ -12,8 +12,9 @@ const PlayerBar = () => {
           {activeSong ? (
             <div className="flex items-center">
               <img
-                src={`https://picsum.photos/60?random=${activeSong.id}`}
+                src={activeSong.artist.image}
                 alt="active song album cover"
+                className="h-14 w-14"
               />
               <div className="flex flex-col pl-4">
                 <div className="text-[13px]">{activeSong.name}</div>
