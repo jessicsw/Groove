@@ -1,9 +1,8 @@
 import { MdHome, MdSearch, MdLibraryMusic } from "react-icons/md";
-import { Divider } from "@mui/material";
+
 import Image from "next/image";
 import Link from "next/link";
-import MusicMenu from "./MusicMenu";
-import Playlist from "./Playlist";
+import SidebarMenu from "./SidebarMenu";
 
 const navMenu = [
   {
@@ -48,9 +47,7 @@ const Sidebar = () => {
             );
           })}
         </ul>
-        <MusicMenu />
-        <Divider className="my-0 mx-auto bg-gray-700" />
-        <Playlist />
+        <SidebarMenu />
       </div>
     </div>
   );
