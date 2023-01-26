@@ -1,15 +1,29 @@
 import { AiOutlineClockCircle, AiFillPlayCircle } from "react-icons/ai";
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { formatTime, formatDate } from "../lib/formatters";
+import { useStoreActions } from "easy-peasy";
 
 const songsTable = ({ songs }) => {
+  const playSongs = useStoreActions(
+    (actions: any) => actions.changeActiveSongs
+  );
+  const setActiveSong = useStoreActions(
+    (actions: any) => actions.changeActiveSong
+  );
+
+  const handlePlay = (activeSong?) => {
+    setActiveSong(activeSong || songs[0]);
+    playSongs(songs);
+  };
+
   return (
     <div className="bg-transparent text-gray-300">
       <div className="relative mb-10">
-        <div className=" h-[30px] w-[30px] bg-black" />
+        <div className=" h-[30px] w-[30px] bg-black " />
         <IoPlayCircleSharp
-          className="absolute top-[-19px] left-[-16px] h-[70px] w-[70px] text-green-600"
+          className="absolute top-[-19px] left-[-16px] h-[70px] w-[70px] text-green-600 hover:h-[72px] hover:w-[72px]"
           aria-label="play button"
+          onClick={() => handlePlay()}
         />
       </div>
 
@@ -41,9 +55,12 @@ const songsTable = ({ songs }) => {
           </tr>
         </thead>
         <tbody>
-          {/* check if padding is needed after creating div for album + song name + artist name */}
           {songs.map((song, index) => (
-            <tr key={song.id} className="hover:bg-white hover:bg-opacity-20">
+            <tr
+              key={song.id}
+              onClick={() => handlePlay(song)}
+              className="hover:bg-white hover:bg-opacity-20"
+            >
               <td className="rounded-l pl-5">{index + 1}</td>
               <td className=" flex items-center">
                 <img

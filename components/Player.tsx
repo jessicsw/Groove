@@ -13,7 +13,7 @@ import { Range } from "react-range";
 
 const Player = ({ songs, activeSong }) => {
   const [value, setValue] = useState([0]);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [index, setIndex] = useState(0);
   const [seek, setSeek] = useState(0.0);
   const [repeat, setRepeat] = useState(false);
