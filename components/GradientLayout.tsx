@@ -21,28 +21,30 @@ const GradientLayout = ({
     <div
       className={`h-full overflow-y-auto bg-gradient-to-b ${bgGradients[color]} to-black text-white`}
     >
-      <div className="flex h-[300px] items-center bg-white bg-opacity-10 pl-7">
+      <div className="flex h-[300px] items-center pl-7">
         <div className="flex items-end">
-          <Image
-            className={`h-[240px] w-[240px] ${
-              roundImage && "rounded-full"
-            } drop-shadow-2xl`}
-            width="240"
-            height="240"
-            src={image}
-            alt="avatar"
-          />
+          <div className="relative h-[230px] w-[230px]">
+            <Image
+              className={`${roundImage && "rounded-full"} drop-shadow-2xl`}
+              fill
+              style={{ objectFit: "cover" }}
+              src={image}
+              alt="avatar"
+            />
+          </div>
           <div className="ml-6">
             <div className="text-[12px] font-semibold uppercase">
               {subtitle}
             </div>
-            <h1 className="text-7xl font-bold leading-relaxed">{title}</h1>
+            <h1 className="whitespace-nowrap text-7xl font-bold leading-relaxed">
+              {title}
+            </h1>
             <div className="text-sm">{description}</div>
           </div>
         </div>
       </div>
 
-      <div className="p-9">{children}</div>
+      <div className="bg-black bg-opacity-10 p-9">{children}</div>
     </div>
   );
 };

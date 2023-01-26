@@ -11,3 +11,10 @@ export const formatDate = (date: Date) => {
     day: "numeric",
   });
 };
+
+export const formatPlaylistDuration = (timeInSeconds = 0) => {
+  return {
+    minutes: formatDuration(timeInSeconds * 1000).split(":")[0],
+    seconds: formatDuration(timeInSeconds * 1000).split(":")[1],
+  };
+};
