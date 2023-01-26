@@ -1,4 +1,4 @@
-import { AiOutlineClockCircle, AiFillPlayCircle } from "react-icons/ai";
+import { AiOutlineClockCircle } from "react-icons/ai";
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { formatTime, formatDate } from "../lib/formatters";
 import { useStoreActions } from "easy-peasy";
@@ -16,8 +16,6 @@ const songsTable = ({ songs }) => {
     playSongs(songs);
   };
 
-  console.log(songs[0]);
-
   return (
     <div className="bg-transparent text-gray-300">
       <div className="relative mb-10">
@@ -28,7 +26,6 @@ const songsTable = ({ songs }) => {
           onClick={() => handlePlay()}
         />
       </div>
-
       <table className="w-full">
         <thead>
           <tr className="text-left text-[12px]">
@@ -60,7 +57,7 @@ const songsTable = ({ songs }) => {
           {songs.map((song, index) => (
             <tr
               key={song.id}
-              onClick={() => handlePlay(song)}
+              onDoubleClick={() => handlePlay(song)}
               className="hover:bg-white hover:bg-opacity-20"
             >
               <td className="rounded-l pl-5">{index + 1}</td>
@@ -71,13 +68,17 @@ const songsTable = ({ songs }) => {
                   className="h-10 w-10"
                 />
                 <div className="ml-5 flex flex-col">
-                  <div className="leading-8 text-white">{song.name}</div>
-                  <div className="text-[13px] text-gray-400">
+                  <div className="whitespace-nowrap leading-8 text-white">
+                    {song.name}
+                  </div>
+                  <div className="whitespace-nowrap text-[13px] text-gray-400">
                     {song.artist.name}
                   </div>
                 </div>
               </td>
-              <td className="">{formatDate(song.createdAt)}</td>
+              <td className="whitespace-nowrap">
+                {formatDate(song.createdAt)}
+              </td>
               <td className="rounded-r">{formatTime(song.duration)}</td>
             </tr>
           ))}
