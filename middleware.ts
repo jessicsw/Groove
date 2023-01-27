@@ -9,7 +9,7 @@ const signedInPages = ["/", "/playlist", "/library"];
 export default function middleware(req: NextRequest) {
   if (signedInPages.find((p) => p === req.nextUrl.pathname)) {
     const token = req.cookies.get("GROOVE_ACCESS_TOKEN")?.value;
-    const authPage = new URL("/signin", req.url);
+    const authPage = new URL("/login", req.url);
     if (!token) {
       return NextResponse.redirect(authPage);
     }
