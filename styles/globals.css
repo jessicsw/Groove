@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.grid-col-4 {
+    grid-template-columns: repeat(auto-fit, minmax(170px,1fr));
+}
+
 /* @layer base {
   html {
     font-family: Proxima Nova, sans-serif;
