@@ -1,4 +1,6 @@
 import ReactHowler from "react-howler";
+import SeekBar from "./SeekBar";
+import { greenText } from "../lib/colors";
 import { useEffect, useRef, useState } from "react";
 import { useStoreActions } from "easy-peasy";
 import { formatTime } from "../lib/formatters";
@@ -10,14 +12,13 @@ import {
   MdOutlinePauseCircleFilled,
   MdOutlinePlayCircleFilled,
 } from "react-icons/md";
-import { Range, getTrackBackground } from "react-range";
 
-const Player = ({ songs, activeSong }) => {
+const Player = ({ songs, activeSong, volume }) => {
   const [playing, setPlaying] = useState(false);
   const [index, setIndex] = useState(
     songs.findIndex((song) => song.id === activeSong?.id)
-    // breaks when activeSong is not set
   );
+  const [loaded, setLoaded] = useState(false);
   const [seek, setSeek] = useState([0.0]);
   const [isSeeking, setIsSeeking] = useState(false);
   const [repeat, setRepeat] = useState(false);
@@ -29,14 +30,10 @@ const Player = ({ songs, activeSong }) => {
     (actions: any) => actions.changeActiveSong
   );
 
-  const greenText = {
-    green: "text-green-500",
-  };
-
   useEffect(() => {
     let timerId;
 
-    if (playing && !isSeeking && activeSong) {
+    if (playing && !isSeeking) {
       const f = () => {
         setSeek([soundRef.current.seek()]);
         timerId = requestAnimationFrame(f);
@@ -94,7 +91,7 @@ const Player = ({ songs, activeSong }) => {
 
   const onEnd = () => {
     if (repeatRef.current) {
-      setSeek([0]);
+      setSeek([0.0]);
       soundRef.current.seek(0);
     } else {
       nextSong();
@@ -104,6 +101,7 @@ const Player = ({ songs, activeSong }) => {
   const onLoad = () => {
     const songDuration = soundRef.current.duration();
     setDuration(songDuration);
+    setLoaded(true);
   };
 
   const onSeek = (e) => {
@@ -113,17 +111,16 @@ const Player = ({ songs, activeSong }) => {
 
   return (
     <div className="flex flex-col items-center">
-      {activeSong && (
-        <ReactHowler
-          onLoad={onLoad}
-          onEnd={onEnd}
-          playing={playing}
-          src={activeSong.url}
-          ref={soundRef}
-          preload={true}
-        />
-      )}
-      <div className="mb-1 flex w-56 justify-between text-center">
+      <ReactHowler
+        onLoad={onLoad}
+        onEnd={onEnd}
+        playing={playing && loaded}
+        preload={true}
+        src={[activeSong?.url]}
+        ref={soundRef}
+        volume={volume}
+      />
+      <div className="flex w-56 justify-between text-center">
         <button
           aria-label="shuffle"
           className={`opacity-60 hover:opacity-90 ${
@@ -144,7 +141,7 @@ const Player = ({ songs, activeSong }) => {
         </button>
         {playing ? (
           <button
-            aria-label="play"
+            aria-label="pause"
             className={`w-[42px h-[42px] text-white ${
               !activeSong && `text-opacity-30`
             }`}
@@ -188,62 +185,19 @@ const Player = ({ songs, activeSong }) => {
       </div>
       <div className="flex w-full items-center">
         <div className="w-[22%] pr-2 text-end text-[12px] text-gray-400">
-          {formatTime(seek[0])}
+          {activeSong && formatTime(seek[0])}
         </div>
-        <div className="w-[56%]">
-          <Range
-            values={seek}
+        <div className="mt-3 h-[18px] w-[56%]">
+          <SeekBar
+            seek={seek}
             step={0.1}
-            min={0}
-            max={duration}
-            onChange={(values) => onSeek([values])}
-            renderTrack={({ props, children }) => (
-              <div
-                onMouseDown={props.onMouseDown}
-                onTouchStart={props.onTouchStart}
-                className="h-[3px] w-full rounded-sm"
-                style={{
-                  ...props.style,
-                }}
-              >
-                <div
-                  ref={props.ref}
-                  className="h-[3px] w-full rounded-sm opacity-100"
-                  style={{
-                    background: getTrackBackground({
-                      values: seek,
-                      colors: ["white", "gray"],
-                      min: 0,
-                      max: duration,
-                    }),
-                  }}
-                >
-                  {children}
-                </div>
-              </div>
-            )}
-            renderThumb={({ props, isDragged }) => (
-              <div
-                {...props}
-                onKeyDown={() => setIsSeeking(true)}
-                onKeyUp={() => setIsSeeking(false)}
-                className="flex items-center justify-center rounded-full"
-                style={{
-                  ...props.style,
-                }}
-              >
-                <div
-                  className={`rounded-full ${isDragged && `h-[10px] w-[10px]`}`}
-                  style={{
-                    backgroundColor: isDragged && "gray",
-                  }}
-                />
-              </div>
-            )}
+            duration={duration}
+            onChange={onSeek}
+            setIsSeeking={setIsSeeking}
           />
         </div>
         <div className="w-[22%] pl-2 text-start text-[12px] text-gray-400">
-          {duration && formatTime(duration)}
+          {activeSong && formatTime(duration)}
         </div>
       </div>
     </div>
