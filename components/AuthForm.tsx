@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { auth } from "../lib/mutations";
-import { Divider } from "@mui/material";
+import { loginAuth, signUpAuth } from "../lib/mutations";
 import Image from "next/image";
 
 const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
@@ -16,7 +15,10 @@ const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const user = await auth(mode, { email, password });
+    const user =
+      mode === "login"
+        ? await loginAuth(mode, { email, password })
+        : await signUpAuth(mode, { email, password, firstName, lastName });
 
     setIsLoading(false);
     router.push("/");
@@ -24,8 +26,10 @@ const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
 
   return (
     <div className="h-full w-full text-white">
-      <div className="p-5 text-center text-base font-semibold ">
-        To continue, log in to Groove.
+      <div className="p-7 text-center text-base font-semibold ">
+        {mode === "login"
+          ? "To continue, log in to Groove."
+          : "Sign up with your email address"}
       </div>
       <form
         id={mode}
@@ -33,7 +37,7 @@ const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
         className="flex w-full flex-col items-center justify-center"
       >
         <label className="m-2 flex w-full flex-col" htmlFor="email">
-          Email Address
+          {mode === "login" ? "Email Address" : `What's your email address?`}
           <input
             id="email"
             onChange={(e) => setEmail(e.target.value)}
@@ -44,7 +48,7 @@ const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
           />
         </label>
         <label className="m-2 flex w-full flex-col" htmlFor="password">
-          Password
+          {mode === "login" ? "Password" : "Create a password"}
           <input
             id="password"
             onChange={(e) => setPassword(e.target.value)}
@@ -54,6 +58,32 @@ const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
             name="password"
           />
         </label>
+        {mode === "signup" && (
+          <label className="mt-2 flex w-full flex-col" htmlFor="firstName">
+            What's your first name?
+            <input
+              id="firstName"
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="First Name"
+              className="mt-2 w-full rounded-sm py-3 pl-2 text-black"
+              type="first name"
+              name="first name"
+            />
+          </label>
+        )}
+        {mode === "signup" && (
+          <label className="mt-2 flex w-full flex-col" htmlFor="lastName">
+            What's your last name?
+            <input
+              id="lastName"
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Last Name"
+              className="mt-2 w-full rounded-sm py-3 pl-2 text-black"
+              type="last name"
+              name="last name"
+            />
+          </label>
+        )}
         <div className="mt-5 h-[50px] w-[146px]">
           <button
             disabled={isLoading}

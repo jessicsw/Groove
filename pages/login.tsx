@@ -10,7 +10,7 @@ const LogIn = () => {
       <div className="flex items-center justify-center">
         <div className="pr-5 text-lg">Groove</div>
         <Image
-          className="py-5"
+          className="py-4"
           src="/logo.svg"
           alt="groove logo"
           width="100"
