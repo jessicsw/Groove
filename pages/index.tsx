@@ -6,19 +6,15 @@ import SongsTable from "../components/SongsTable";
 
 export default function Home({ artists, songs }) {
   const { user, isLoading } = useMe();
-  const getBGColor = (id) => {
-    const colors = ["gray", "red", "lime", "cyan", "blue"];
 
-    return colors[id - 1] || colors[Math.floor(Math.random() * colors.length)];
-  };
   return (
     <GradientLayout
-      color={getBGColor(0)}
+      color="cyan"
       roundImage={true}
       title={`${user?.firstName} ${user?.lastName}`}
       description={`${user?.playlistCount} Public Playlists • 3 Followers • 3 Following`}
       subtitle="profile"
-      image="/avatar.jpg"
+      image={`https://picsum.photos/seed/${user?.id}/400`}
     >
       <div className="whitespace-nowrap text-xl font-semibold">
         Top artists this month

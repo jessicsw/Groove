@@ -47,7 +47,7 @@ const Playlist = ({ playlist, user }) => {
             </div>
           </>
         }
-        image={`https://picsum.photos/400?random=${playlist.id}`}
+        image={`https://picsum.photos/seed/${playlist.id}/400`}
       >
         <div>
           <div className="w-full">
