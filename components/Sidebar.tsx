@@ -73,20 +73,24 @@ const Sidebar = () => {
             })}
           </ul>
           <ul className="mb-4 text-gray-300">
-            {musicMenu.map((menu) => {
-              return (
-                <li className="mb-2" key={menu.name}>
-                  <Link href={menu.route} passHref>
-                    <menu.icon className="mr-4 inline" /> {menu.name}
-                  </Link>
-                </li>
-              );
-            })}
+            <li className="mb-2">
+              {/* <Link href="/posts/[id]" as={`/posts/${id}`}>
+                <a>{title}</a>
+              </Link> */}
+              <button onClick={handleCreatePlaylist}>
+                <MdPlaylistAdd className="mr-4 inline" /> Create Playlist
+              </button>
+            </li>
+            <li className="mb-2">
+              <Link href="/favorites" passHref>
+                <MdFavorite className="mr-4 inline" /> Liked Songs
+              </Link>
+            </li>
           </ul>
           <Divider className="my-0 mx-auto bg-gray-700" />
         </div>
-        <div className="h-[calc(100vh-390px)] overflow-y-auto">
-          <ul className="">
+        <div className="scroll h-[calc(100vh-390px)] hover:overflow-auto">
+          <ul>
             {playlists.map((playlist) => (
               <li className="py-1 text-sm" key={playlist.id}>
                 <Link
@@ -100,14 +104,6 @@ const Sidebar = () => {
                 </Link>
               </li>
             ))}
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
-            <li>test</li>
           </ul>
         </div>
       </div>
