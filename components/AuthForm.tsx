@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { loginAuth, signUpAuth } from "../lib/mutations";
+import { authorizeLogin, createUser } from "../lib/mutations";
 import Image from "next/image";
 
 const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
@@ -11,16 +11,17 @@ const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
   const [lastName, setLastName] = useState("");
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     const user =
       mode === "login"
-        ? await loginAuth(mode, { email, password })
-        : await signUpAuth(mode, { email, password, firstName, lastName });
+        ? authorizeLogin({ email, password })
+        : createUser({ email, password, firstName, lastName });
 
     setIsLoading(false);
+
     router.push("/");
   };
 

@@ -1,14 +1,30 @@
-export async function fetcher(
-  url: string,
-  data: { email: string; password: string } | undefined
-) {
-  return await fetch(`${window.location.origin}/api${url}`, {
-    method: data ? "POST" : "GET",
+export async function fetchPlaylists(url: string) {
+  return await fetch(`${window.location.origin}${url}`, {
+    method: "GET",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+  }).then((res) => res.json());
+}
+
+export async function fetchPlaylistSongs(url: string) {
+  return await fetch(`${window.location.origin}${url}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+}
+
+export async function fetchSearchResults(params: string) {
+  return await fetch(`${window.location.origin}/api/search?query=${params}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
   }).then((res) => {
     if (res.status > 399 && res.status < 200) {
       throw new Error();
@@ -17,17 +33,13 @@ export async function fetcher(
   });
 }
 
-export async function signUpFetcher(
-  url: string,
-  data: { email: string; password: string; firstName: string; lastName: string }
-) {
+export async function fetcher(url: string) {
   return await fetch(`${window.location.origin}/api${url}`, {
-    method: "POST",
+    method: "GET",
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
   }).then((res) => {
     if (res.status > 399 && res.status < 200) {
       throw new Error();

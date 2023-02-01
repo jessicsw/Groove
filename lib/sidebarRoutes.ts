@@ -28,7 +28,7 @@ export const musicMenu = [
   {
     name: "Create Playlist",
     icon: MdPlaylistAdd,
-    route: "/",
+    route: "/playlist",
   },
   {
     name: "Liked Songs",
