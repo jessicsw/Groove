@@ -1,13 +1,10 @@
-import { validateToken } from "../../lib/auth";
 import prisma from "../../lib/prisma";
 import GradientLayout from "../../components/GradientLayout";
-import SongsTable from "../../components/songsTable";
+import SongsTable from "../../components/SongsTable";
 import Image from "next/image";
-import { formatTime, formatPlaylistDuration } from "../../lib/formatters";
-
-interface JwtPayLoad {
-  id: number;
-}
+import { validateToken } from "../../lib/auth";
+import { formatPlaylistDuration } from "../../lib/formatters";
+import SearchSongs from "../../components/SearchSongs";
 
 const getBGColor = (id) => {
   const colors = ["gray", "red", "lime", "cyan", "blue"];
@@ -17,11 +14,9 @@ const getBGColor = (id) => {
 
 const Playlist = ({ playlist, user }) => {
   const color = getBGColor(playlist.id);
-
-  const duration = playlist.songs.reduce((acc, el) => {
+  const playlistDuration = playlist.songs.reduce((acc, el) => {
     return acc + parseInt(el.duration);
   }, 0);
-
   return (
     <div className="h-full">
       <GradientLayout
@@ -41,21 +36,33 @@ const Playlist = ({ playlist, user }) => {
                   alt="avatar"
                 />
               </div>
-              {`${user.firstName} • ${playlist.songs.length} songs, ${
-                formatPlaylistDuration(duration).minutes
-              } min ${formatPlaylistDuration(duration).seconds} sec`}
+              {`${user.firstName}`}
+              {playlist.songs.length === 0
+                ? null
+                : ` • ${playlist.songs.length} songs, ${
+                    formatPlaylistDuration(playlistDuration).minutes
+                  } min ${
+                    formatPlaylistDuration(playlistDuration).seconds
+                  } sec`}
             </div>
           </>
         }
         image={`https://picsum.photos/400?random=${playlist.id}`}
       >
         <div>
-          <SongsTable songs={playlist.songs} />
+          <div className="w-full">
+            <SongsTable songs={playlist.songs} profile={false} />
+            <SearchSongs />
+          </div>
         </div>
       </GradientLayout>
     </div>
   );
 };
+
+interface JwtPayLoad {
+  id: number;
+}
 
 export const getServerSideProps = async ({ query, req }) => {
   let user;

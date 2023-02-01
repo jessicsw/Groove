@@ -31,35 +31,33 @@ export default async function handler(
     }
 
     if (req.method === "POST") {
-      const playlist = await prisma.playlist.create({
+      const { playlistId, songId } = req.body;
+      const playlistSongs = await prisma.song.update({
+        where: { id: +songId },
         data: {
-          name: req.body.name,
-          User: {
-            connect: { id: user.id },
+          playlists: {
+            connect: { id: +playlistId },
           },
         },
       });
-      res.json(playlist);
+
+      res.json(playlistSongs);
     }
 
-    if (req.method === "GET" && req.query.id) {
-      const { query } = req.query as { query: string };
-
-      const playlist = await prisma.playlist.findUnique({
-        where: { id: +query },
-      });
-
-      res.json(playlist);
-    } else if (req.method === "GET") {
-      const playlists = await prisma.playlist.findMany({
-        where: { userId: user.id },
-        orderBy: {
-          createdAt: "asc",
+    const { playlistId } = req.query as { playlistId: string };
+    if (req.method === "GET" && playlistId) {
+      const playlistSongs = await prisma.playlist.findUnique({
+        where: { id: parseInt(playlistId) },
+        select: {
+          songs: true,
         },
       });
-      res.json(playlists);
-    }
 
+      res.json(playlistSongs.songs);
+    } else if (req.method === "GET") {
+      const songs = await prisma.song.findMany();
+      res.json(songs);
+    }
   } else {
     res.status(401);
     res.json({ error: "Not authorized" });

@@ -6,6 +6,10 @@ interface JwtPayLoad {
   id: number;
 }
 
+interface RequestQuery {
+  query: string;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -30,36 +34,26 @@ export default async function handler(
       return;
     }
 
-    if (req.method === "POST") {
-      const playlist = await prisma.playlist.create({
-        data: {
-          name: req.body.name,
-          User: {
-            connect: { id: user.id },
+    const { query } = req.query as { query: string };
+
+    const songs = await prisma.song.findMany({
+      where: {
+        name: {
+          search: query,
+        },
+      },
+      include: {
+        artist: {
+          select: {
+            name: true,
+            image: true,
+            id: true,
           },
         },
-      });
-      res.json(playlist);
-    }
+      },
+    });
 
-    if (req.method === "GET" && req.query.id) {
-      const { query } = req.query as { query: string };
-
-      const playlist = await prisma.playlist.findUnique({
-        where: { id: +query },
-      });
-
-      res.json(playlist);
-    } else if (req.method === "GET") {
-      const playlists = await prisma.playlist.findMany({
-        where: { userId: user.id },
-        orderBy: {
-          createdAt: "asc",
-        },
-      });
-      res.json(playlists);
-    }
-
+    res.json(songs);
   } else {
     res.status(401);
     res.json({ error: "Not authorized" });

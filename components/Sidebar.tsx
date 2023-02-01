@@ -1,11 +1,52 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Divider } from "@mui/material";
-import { usePlaylist } from "../lib/hooks";
-import { navMenu, musicMenu } from "../lib/sidebarRoutes";
+import { navMenu } from "../lib/sidebarRoutes";
+import { MdPlaylistAdd, MdFavorite } from "react-icons/md";
+import { useRouter } from "next/router";
+import { addPlaylist } from "../lib/mutations";
+import { fetchPlaylists } from "../lib/fetcher";
+import { v4 as uuidv4 } from "uuid";
+import useSWR from "swr";
 
 const Sidebar = () => {
-  const { playlists } = usePlaylist();
+  const {
+    data: playlists,
+    mutate: mutatePlaylists,
+    isLoading,
+  } = useSWR("/api/playlist", fetchPlaylists);
+  const router = useRouter();
+  const handleCreatePlaylist = async () => {
+    // Creates tempId so that jsx has unique key prop for local mutate
+    const tempId = uuidv4();
+    const newPlaylist = { name: `Playlist #${playlists.length + 1}` };
+
+    try {
+      // Optimistically adds new playlist to local cache
+      await mutatePlaylists((playlists) => {
+        return [...playlists, { ...newPlaylist, id: tempId }];
+      }, false);
+
+      // Create new playlist
+      let json = await addPlaylist(newPlaylist);
+
+      //Update tempId with canonical id created from POST request above.
+      //NOTE: triggering revalidation (e.g. switching pages) will cause cache to update with canonical id, however, if user doesn't navigate away from page, the tempid will persist
+      await mutatePlaylists(
+        (playlists) =>
+          playlists.map((playlist) => {
+            return playlist.id === tempId ? json : playlist;
+          }),
+        false
+      );
+
+      router.push(`/playlist/${json.id}`);
+    } catch (error) {
+      console.error("Unable to mutate playlist");
+    }
+  };
+
+  if (isLoading) return <div className="text-white">loading...</div>;
   return (
     <div className="h-[calc(100vh-100px)] w-full bg-black p-5 text-gray-400">
       <div className="h-full">
