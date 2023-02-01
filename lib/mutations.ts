@@ -9,7 +9,12 @@ export const authorizeLogin = async (user: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
-  }).then((res) => res.json());
+  }).then((res) => {
+    if (res.status > 399 && res.status < 200) {
+      throw new Error();
+    }
+    return res.json();
+  });
 };
 
 export async function addSong(newSong: { playlistId: string; songId: string }) {
@@ -34,12 +39,12 @@ export async function addPlaylist(newPlaylist: { name: string }) {
   }).then((res) => res.json());
 }
 
-export async function createUser(user: {
+export const createUser = async (user: {
   email: string;
   password: string;
   firstName: string;
   lastName: string;
-}) {
+}) => {
   return await fetch(`${window.location.origin}/api/signup`, {
     method: "POST",
     credentials: "include",
@@ -53,4 +58,4 @@ export async function createUser(user: {
     }
     return res.json();
   });
-}
+};

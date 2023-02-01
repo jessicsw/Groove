@@ -5,7 +5,6 @@ import prisma from "../../lib/prisma";
 import { NextApiRequest } from "next";
 import { NextApiResponse } from "next";
 
-//Called when url: /login
 export default async function logIn(
   req: NextApiRequest,
   res: NextApiResponse

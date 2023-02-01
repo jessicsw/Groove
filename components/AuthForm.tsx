@@ -11,17 +11,16 @@ const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
   const [lastName, setLastName] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     const user =
       mode === "login"
-        ? authorizeLogin({ email, password })
-        : createUser({ email, password, firstName, lastName });
+        ? await authorizeLogin({ email, password })
+        : await createUser({ email, password, firstName, lastName });
 
     setIsLoading(false);
-
     router.push("/");
   };
 
@@ -90,7 +89,7 @@ const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
             disabled={isLoading}
             type="submit"
             name={mode}
-            className="inline-flex h-12 w-36 items-center justify-center rounded-full bg-[#3857aa] py-2.5 px-5 text-sm font-bold text-white hover:h-[50px] hover:w-[146px] focus:h-[50px]  focus:w-[146px] dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            className="inline-flex h-12 w-36 items-center justify-center rounded-full bg-[#3857aa] py-2.5 px-5 text-sm font-bold text-white hover:h-[50px] hover:w-[146px] focus:h-[50px] focus:w-[146px]"
           >
             {isLoading ? (
               <Image

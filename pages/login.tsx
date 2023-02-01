@@ -30,7 +30,7 @@ const LogIn = () => {
           Don't have an account?
         </div>
         <button
-          onClick={() => router.push("/signup")}
+          onClick={() => router.replace("/signup")}
           className="mt-5 w-full rounded-full bg-white p-5 font-bold text-gray-500"
         >
           SIGN UP FOR GROOVE
