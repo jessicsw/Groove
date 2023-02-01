@@ -12,15 +12,13 @@ import {
   MdOutlinePauseCircleFilled,
   MdOutlinePlayCircleFilled,
 } from "react-icons/md";
+import { greenText } from "../lib/colors";
 
 const Player = ({ songs, activeSong, volume }) => {
   const [playing, setPlaying] = useState(false);
-  const [index, setIndex] = useState(
-    songs.findIndex((song) => song.id === activeSong?.id)
-  );
+  const [index, setIndex] = useState(null);
   const [loaded, setLoaded] = useState(false);
-  const [seek, setSeek] = useState([0.0]);
-  const [isSeeking, setIsSeeking] = useState(false);
+  const [seek, setSeek] = useState(0.0);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
   const [duration, setDuration] = useState(activeSong?.duration || 1);
@@ -33,9 +31,9 @@ const Player = ({ songs, activeSong, volume }) => {
   useEffect(() => {
     let timerId;
 
-    if (playing && !isSeeking) {
+    if (playing) {
       const f = () => {
-        setSeek([soundRef.current.seek()]);
+        setSeek(soundRef.current.seek());
         timerId = requestAnimationFrame(f);
       };
 
@@ -91,7 +89,7 @@ const Player = ({ songs, activeSong, volume }) => {
 
   const onEnd = () => {
     if (repeatRef.current) {
-      setSeek([0.0]);
+      setSeek(0.0);
       soundRef.current.seek(0);
     } else {
       nextSong();
@@ -105,8 +103,8 @@ const Player = ({ songs, activeSong, volume }) => {
   };
 
   const onSeek = (e) => {
-    setSeek(e[0]);
-    soundRef.current.seek(e[0]);
+    setSeek(e);
+    soundRef.current.seek(e);
   };
 
   return (
@@ -185,15 +183,14 @@ const Player = ({ songs, activeSong, volume }) => {
       </div>
       <div className="flex w-full items-center">
         <div className="w-[22%] pr-2 text-end text-[12px] text-gray-400">
-          {activeSong && formatTime(seek[0])}
+          {activeSong && formatTime(seek)}
         </div>
         <div className="mt-3 h-[18px] w-[56%]">
           <SeekBar
-            seek={seek}
+            seek={[seek]}
             step={0.1}
             duration={duration}
             onChange={onSeek}
-            setIsSeeking={setIsSeeking}
           />
         </div>
         <div className="w-[22%] pl-2 text-start text-[12px] text-gray-400">

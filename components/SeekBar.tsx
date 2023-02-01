@@ -1,13 +1,13 @@
 import { Range, getTrackBackground } from "react-range";
 
-const SeekBar = ({ seek, duration, onChange, setIsSeeking, step }) => {
+const SeekBar = ({ seek, duration, onChange, step }) => {
   return (
     <Range
-      values={seek}
+      values={[seek]}
       step={step}
       min={0}
       max={duration}
-      onChange={(values) => onChange([values])}
+      onChange={(values) => onChange(values[0])}
       renderTrack={({ props, children }) => (
         <div
           onMouseDown={props.onMouseDown}
@@ -36,8 +36,6 @@ const SeekBar = ({ seek, duration, onChange, setIsSeeking, step }) => {
       renderThumb={({ props, isDragged }) => (
         <div
           {...props}
-          onKeyDown={() => setIsSeeking(true)}
-          onKeyUp={() => setIsSeeking(false)}
           className="flex items-center justify-center rounded-full"
           style={{
             ...props.style,

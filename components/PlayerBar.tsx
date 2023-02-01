@@ -6,6 +6,7 @@ import {
   IoVolumeHighSharp,
   IoVolumeMediumSharp,
   IoVolumeLowSharp,
+  IoVolumeMuteSharp,
 } from "react-icons/io5";
 
 const PlayerBar = () => {
@@ -14,7 +15,9 @@ const PlayerBar = () => {
   const [volume, setVolume] = useState(1.0);
 
   const renderIcon = (volume) => {
-    if (volume < 0.33) {
+    if (volume === 0) {
+      return <IoVolumeMuteSharp size="22px" />;
+    } else if (volume < 0.33) {
       return <IoVolumeLowSharp size="22px" />;
     } else if (volume < 0.66) {
       return <IoVolumeMediumSharp size="22px" />;
@@ -56,7 +59,6 @@ const PlayerBar = () => {
               step={0.01}
               duration={1.0}
               onChange={setVolume}
-              setIsSeeking={null}
             />
           </div>
         </div>
