@@ -42,13 +42,19 @@ const Player = ({ songs, activeSong, volume }) => {
     }
 
     cancelAnimationFrame(timerId);
-  }, [playing, isSeeking]);
+  }, [playing]);
 
   useEffect(() => {
-    setActiveSong(songs[index]);
-    setSeek([0.0]);
-    setPlaying(true);
-  }, [index, setActiveSong, songs]);
+    setIndex(songs.findIndex((song) => song.id === activeSong?.id));
+  }, [activeSong, songs]);
+
+  useEffect(() => {
+    if (activeSong && songs) {
+      setActiveSong(songs[index]);
+      setSeek(0.0);
+      setPlaying(true);
+    }
+  }, [index]);
 
   useEffect(() => {
     repeatRef.current = repeat;

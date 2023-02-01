@@ -91,7 +91,7 @@ const Sidebar = () => {
         </div>
         <div className="scroll h-[calc(100vh-390px)] hover:overflow-auto">
           <ul>
-            {playlists.map((playlist) => (
+            {playlists?.map((playlist) => (
               <li className="py-1 text-sm" key={playlist.id}>
                 <Link
                   href={{

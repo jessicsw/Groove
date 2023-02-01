@@ -59,7 +59,7 @@ const songsTable = ({ songs, profile }) => {
           </thead>
         )}
         <tbody>
-          {songs.map((song, index) => (
+          {songs?.map((song, index) => (
             <tr
               key={song.id}
               onDoubleClick={() => handlePlay(song)}

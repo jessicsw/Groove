@@ -10,13 +10,3 @@ export const useMe = () => {
     isError: error,
   };
 };
-
-export const usePlaylist = () => {
-  const { data, error, mutate } = useSWR("/api/playlist", fetchPlaylists);
-  return {
-    playlists: data || [],
-    isLoading: !data && !error,
-    isError: error,
-    mutate,
-  };
-};
