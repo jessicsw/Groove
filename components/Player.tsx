@@ -1,8 +1,7 @@
 import ReactHowler from "react-howler";
 import SeekBar from "./SeekBar";
-import { greenText } from "../lib/colors";
-import { useEffect, useRef, useState } from "react";
-import { useStoreActions } from "easy-peasy";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
+import { useStoreActions } from "../lib/hooks";
 import { formatTime } from "../lib/formatters";
 import {
   MdShuffle,

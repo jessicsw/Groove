@@ -1,12 +1,6 @@
-import useSWR from "swr";
-import { fetcher, fetchPlaylists } from "./fetcher";
+import { createTypedHooks } from "easy-peasy";
+import { ActiveSongsModel } from "./store";
 
-export const useMe = () => {
-  const { data, error } = useSWR("/me", fetcher);
-
-  return {
-    user: data,
-    isLoading: !data && !error,
-    isError: error,
-  };
-};
+const typedHooks = createTypedHooks<ActiveSongsModel>();
+export const useStoreActions = typedHooks.useStoreActions;
+export const useStoreState = typedHooks.useStoreState;

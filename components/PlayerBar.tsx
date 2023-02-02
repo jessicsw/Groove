@@ -1,7 +1,8 @@
 import Player from "./Player";
 import SeekBar from "./SeekBar";
-import { useStoreState } from "easy-peasy";
-import { useState } from "react";
+import { useStoreState } from "../lib/hooks";
+import { ReactElement, useState } from "react";
+import { IconType } from "react-icons";
 import {
   IoVolumeHighSharp,
   IoVolumeMediumSharp,
@@ -10,11 +11,11 @@ import {
 } from "react-icons/io5";
 
 const PlayerBar = () => {
-  const songs = useStoreState((state: any) => state.activeSongs);
-  const activeSong: any = useStoreState((state: any) => state.activeSong);
+  const songs = useStoreState((state) => state.activeSongs);
+  const activeSong = useStoreState((state) => state.activeSong);
   const [volume, setVolume] = useState(1.0);
 
-  const renderIcon = (volume) => {
+  const renderIcon = (volume: number): ReactElement<IconType> => {
     if (volume === 0) {
       return <IoVolumeMuteSharp size="22px" />;
     } else if (volume < 0.33) {
