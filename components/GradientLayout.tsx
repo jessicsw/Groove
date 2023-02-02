@@ -41,7 +41,8 @@ const GradientLayout = ({
           <div className="relative h-[230px] w-[230px]">
             <Image
               className={`${roundImage && "rounded-full"} drop-shadow-2xl`}
-              fill
+              width={400}
+              height={400}
               style={{ objectFit: "cover" }}
               src={image}
               alt="avatar"

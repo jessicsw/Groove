@@ -71,9 +71,11 @@ const Playlist = ({ playlist, user }: PlaylistProps) => {
               <div className="relative mr-1 h-[25px] w-[25px]">
                 <Image
                   className="rounded-full drop-shadow-2xl"
-                  fill
+                  width={400}
+                  height={400}
+                  priority={true}
                   style={{ objectFit: "cover" }}
-                  src="/avatar.jpg"
+                  src={`https://picsum.photos/seed/${user?.id}/400`}
                   alt="avatar"
                 />
               </div>

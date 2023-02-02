@@ -88,9 +88,6 @@ const Sidebar = () => {
           </ul>
           <ul className="mb-4 text-gray-300">
             <li className="mb-2">
-              {/* <Link href="/posts/[id]" as={`/posts/${id}`}>
-                <a>{title}</a>
-              </Link> */}
               <button onClick={handleCreatePlaylist}>
                 <MdPlaylistAdd className="mr-4 inline" /> Create Playlist
               </button>

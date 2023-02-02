@@ -61,7 +61,7 @@ const Search = () => {
   };
 
   return (
-    <div className="">
+    <div>
       <div className="min-w-[301px] max-w-[301px] py-5">
         <label className="text-xl font-semibold" htmlFor="search">
           Find songs to add to your playlist
@@ -118,7 +118,6 @@ const Search = () => {
                       </div>
                     </div>
                   </td>
-                  {/* <td>{formatTime(song.duration)}</td> */}
                   <td className="rounded-r pr-5 text-end">
                     <button
                       name="add song"

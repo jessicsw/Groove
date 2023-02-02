@@ -1,4 +1,12 @@
-export async function fetchPlaylists(url: string) {
+type Playlist = {
+  UpdatedAt: Date;
+  createdAt: Date;
+  id: number;
+  name: string;
+  userId: number;
+};
+
+export async function fetchPlaylists(url: string): Promise<Array<Playlist>> {
   return await fetch(`${window.location.origin}${url}`, {
     method: "GET",
     credentials: "include",
@@ -33,8 +41,8 @@ export async function fetchSearchResults(params: string) {
   });
 }
 
-export async function fetcher(url: string) {
-  return await fetch(`${window.location.origin}/api${url}`, {
+export async function fetcherUser(url: string) {
+  return await fetch(`${window.location.origin}${url}`, {
     method: "GET",
     credentials: "include",
     headers: {
