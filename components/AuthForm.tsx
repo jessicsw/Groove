@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { authorizeLogin, createUser } from "../lib/mutations";
 import Image from "next/image";
 
-const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
+type AuthFormProps = {
+  mode: "login" | "signup";
+};
+
+const AuthForm = ({ mode }: AuthFormProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -11,7 +15,7 @@ const AuthForm = ({ mode }: { mode: "login" | "signup" }) => {
   const [lastName, setLastName] = useState("");
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 

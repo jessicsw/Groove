@@ -2,6 +2,16 @@ import jwt from "jsonwebtoken";
 import prisma from "../../lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 
+type UserData = {
+  id: number;
+  createdAt: Date;
+  UpdatedAt: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
+
 interface JwtPayLoad {
   id: number;
 }
@@ -13,7 +23,7 @@ export default async function handler(
   const token = req.cookies.GROOVE_ACCESS_TOKEN;
 
   if (token) {
-    let user;
+    let user: UserData | null;
 
     try {
       const { id } = jwt.verify(token, "hello") as JwtPayLoad;
@@ -59,7 +69,6 @@ export default async function handler(
       });
       res.json(playlists);
     }
-
   } else {
     res.status(401);
     res.json({ error: "Not authorized" });

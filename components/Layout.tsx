@@ -1,9 +1,8 @@
-import { ReactElement } from "react";
+import { PropsWithChildren } from "react";
 import Sidebar from "./Sidebar";
-import GradientLayout from "./GradientLayout";
 import PlayerBar from "./PlayerBar";
 
-const Layout = ({ children }: { children: ReactElement }) => {
+const Layout = ({ children }: PropsWithChildren) => {
   return (
     <div className="h-screen w-screen">
       <div className="absolute top-0 left-0 w-[250px]">

@@ -1,11 +1,33 @@
 import GradientLayout from "../components/GradientLayout";
 import prisma from "../lib/prisma";
-import { useMe } from "../lib/hooks";
+import useSWR from "swr";
 import Image from "next/image";
 import SongsTable from "../components/SongsTable";
+import { fetcherUser } from "@/lib/fetchers";
 
-export default function Home({ artists, songs }) {
-  const { user, isLoading } = useMe();
+type Artist = {
+  id: number;
+  image: string;
+  name: string;
+};
+
+type Song = {
+  duration: number;
+  id: number;
+  name: string;
+  url: string;
+  artistId: number;
+  artist: Artist;
+  createdAt: Date;
+};
+
+type HomeProps = {
+  artists: Array<Artist>;
+  songs: Array<Song>;
+};
+
+export default function Home({ artists, songs }: HomeProps) {
+  const { data: user } = useSWR("/api/me", fetcherUser);
 
   return (
     <GradientLayout
@@ -29,7 +51,7 @@ export default function Home({ artists, songs }) {
             className="m-3 max-w-[200px] rounded-md bg-white bg-opacity-10 p-5 duration-200 hover:cursor-pointer hover:bg-opacity-20 hover:ease-in-out"
           >
             <Image
-              src={artist.image}
+              src={artist?.image}
               alt="artist image"
               height="144"
               width="144"

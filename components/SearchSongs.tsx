@@ -1,14 +1,29 @@
 import { IoSearchOutline } from "react-icons/io5";
-import { useState } from "react";
-import { fetchSearchResults, fetchPlaylistSongs } from "../lib/fetcher";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { fetchSearchResults, fetchPlaylistSongs } from "../lib/fetchers";
 import { useRouter } from "next/router";
 import { addSong } from "../lib/mutations";
 import useSWR from "swr";
-import { formatTime } from "../lib/formatters";
+
+type Artist = {
+  id: number;
+  image: string;
+  name: string;
+};
+
+type Song = {
+  duration: number;
+  id: string;
+  name: string;
+  url: string;
+  artistId: number;
+  artist: Artist;
+  createdAt: Date;
+};
 
 const Search = () => {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState(null);
+  const [results, setResults] = useState<Song[] | null>(null);
   const router = useRouter();
 
   const { id: playlistId } = router.query as { id: string };
@@ -17,16 +32,16 @@ const Search = () => {
     fetchPlaylistSongs
   );
 
-  const handleOnClick = (e) => {
+  const handleOnClick = () => {
     setQuery("");
     setResults(null);
   };
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
-  const handleOnKeyDown = async (e) => {
+  const handleOnKeyDown = async (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       const json = await fetchSearchResults(query);
       setResults(json);
@@ -35,7 +50,7 @@ const Search = () => {
     }
   };
 
-  const handleAddSong = async (newSong) => {
+  const handleAddSong = async (newSong: Song) => {
     try {
       await mutatePlaylistSongs([...playlistSongs, newSong], false);
       await addSong({ songId: newSong.id, playlistId });

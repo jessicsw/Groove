@@ -1,18 +1,34 @@
 import { AiOutlineClockCircle } from "react-icons/ai";
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { formatTime, formatDate } from "../lib/formatters";
-import { useStoreActions } from "easy-peasy";
-import Skeleton from "./Skeleton";
+import { useStoreActions } from "../lib/hooks";
 
-const songsTable = ({ songs, profile }) => {
-  const playSongs = useStoreActions(
-    (actions: any) => actions.changeActiveSongs
-  );
-  const setActiveSong = useStoreActions(
-    (actions: any) => actions.changeActiveSong
-  );
+type Artist = {
+  id: number;
+  image: string;
+  name: string;
+};
 
-  const handlePlay = (activeSong?) => {
+type Song = {
+  duration: number;
+  id: number;
+  name: string;
+  url: string;
+  artistId: number;
+  artist: Artist;
+  createdAt: Date;
+};
+
+type SongsTableProps = {
+  songs: Array<Song>;
+  profile: boolean;
+};
+
+const SongsTable = ({ songs, profile }: SongsTableProps) => {
+  const playSongs = useStoreActions((actions) => actions.changeActiveSongs);
+  const setActiveSong = useStoreActions((actions) => actions.changeActiveSong);
+
+  const handlePlay = (activeSong?: Song) => {
     setActiveSong(activeSong || songs[0]);
     playSongs(songs);
   };
@@ -92,4 +108,4 @@ const songsTable = ({ songs, profile }) => {
     </div>
   );
 };
-export default songsTable;
+export default SongsTable;

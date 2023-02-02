@@ -5,11 +5,17 @@ import prisma from "../../lib/prisma";
 import { NextApiRequest } from "next";
 import { NextApiResponse } from "next";
 
+type RequestBody = {
+  email: string;
+  password: string;
+};
+
 export default async function logIn(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { email, password } = req.body;
+
+  const { email, password }: RequestBody = req.body;
 
   const user = await prisma.user.findUnique({
     where: {

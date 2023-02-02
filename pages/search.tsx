@@ -1,34 +1,57 @@
 import prisma from "../lib/prisma";
 import { validateToken } from "../lib/auth";
-import { useState } from "react";
-import { useRouter } from "next/router";
-import { fetchSearchResults } from "../lib/fetcher";
+import { ChangeEvent, useState, KeyboardEvent } from "react";
+import { fetchSearchResults } from "../lib/fetchers";
 import { IoSearchOutline } from "react-icons/io5";
 import { AiFillCaretDown } from "react-icons/ai";
 import { addSong } from "../lib/mutations";
 import Link from "next/link";
+import { GetServerSideProps } from "next";
 
 interface JwtPayLoad {
   id: number;
 }
 
-const Search = ({ playlists }) => {
-  const [query, setQuery] = useState("");
-  const [results, setResults] = useState(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [songId, setSongId] = useState(null);
-  const router = useRouter();
+type Playlist = {
+  id: number;
+  createdAt: Date;
+  UpdatedAt: Date;
+  name: string;
+  userId: number;
+};
 
-  const handleOnClick = (e) => {
+type Artist = {
+  id: number;
+  image: string;
+  name: string;
+};
+
+type Song = {
+  duration: number;
+  id: string;
+  name: string;
+  url: string;
+  artistId: number;
+  artist: Artist;
+  createdAt: Date;
+};
+
+const Search = ({ playlists }: { playlists: Array<Playlist> }) => {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<Array<Song> | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [songId, setSongId] = useState<string | null>(null);
+
+  const handleOnClick = () => {
     setQuery("");
     setResults(null);
   };
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
-  const handleOnKeyDown = async (e) => {
+  const handleOnKeyDown = async (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       const json = await fetchSearchResults(query);
       setResults(json);
@@ -37,16 +60,16 @@ const Search = ({ playlists }) => {
     }
   };
 
-  const handleDropDownMenu = (songId) => {
+  const handleDropDownMenu = (songId: string) => {
     setIsVisible((state) => !state);
     setSongId(songId);
   };
 
-  const handleAddSong = async (playlistId) => {
+  const handleAddSong = async (playlistId: string) => {
     try {
-      await addSong({ songId, playlistId });
+      await addSong({ songId: songId as string, playlistId });
     } catch (error) {
-      console.log("Error with adding song");
+      console.error("Error with adding song");
     }
   };
 
@@ -142,7 +165,7 @@ const Search = ({ playlists }) => {
                             tabIndex={-1}
                             key={playlist.id}
                             passHref
-                            onClick={() => handleAddSong(playlist.id)}
+                            onClick={() => handleAddSong("" + playlist.id)}
                           >
                             {playlist.name}
                           </Link>
@@ -162,11 +185,13 @@ const Search = ({ playlists }) => {
 
 export default Search;
 
-export async function getServerSideProps({ query, req }) {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let user;
 
   try {
-    user = validateToken(req.cookies.GROOVE_ACCESS_TOKEN) as JwtPayLoad;
+    user = validateToken(
+      req.cookies.GROOVE_ACCESS_TOKEN as string
+    ) as JwtPayLoad;
   } catch (error) {
     return {
       redirect: {
@@ -185,4 +210,4 @@ export async function getServerSideProps({ query, req }) {
       playlists: JSON.parse(JSON.stringify(playlists)),
     },
   };
-}
+};

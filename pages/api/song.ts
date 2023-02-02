@@ -6,6 +6,16 @@ interface JwtPayLoad {
   id: number;
 }
 
+type UserData = {
+  id: number;
+  createdAt: Date;
+  UpdatedAt: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -13,7 +23,7 @@ export default async function handler(
   const token = req.cookies.GROOVE_ACCESS_TOKEN;
 
   if (token) {
-    let user;
+    let user: UserData | null;
 
     try {
       const { id } = jwt.verify(token, "hello") as JwtPayLoad;
@@ -53,7 +63,7 @@ export default async function handler(
         },
       });
 
-      res.json(playlistSongs.songs);
+      res.json(playlistSongs?.songs);
     } else if (req.method === "GET") {
       const songs = await prisma.song.findMany();
       res.json(songs);

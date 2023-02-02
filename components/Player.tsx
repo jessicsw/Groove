@@ -13,34 +13,53 @@ import {
 } from "react-icons/md";
 import { greenText } from "../lib/colors";
 
-const Player = ({ songs, activeSong, volume }) => {
+type Artist = {
+  id: number;
+  image: string;
+  name: string;
+};
+
+type ActiveSong = {
+  duration: number;
+  id: number;
+  name: string;
+  url: string;
+  artistId: number;
+  artist: Artist;
+};
+
+type PlayerProps = {
+  songs: Array<ActiveSong>;
+  activeSong: ActiveSong | null;
+  volume: number;
+};
+
+const Player = ({ songs, activeSong, volume }: PlayerProps) => {
   const [playing, setPlaying] = useState(false);
-  const [index, setIndex] = useState(null);
+  const [index, setIndex] = useState<number | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [seek, setSeek] = useState(0.0);
   const [repeat, setRepeat] = useState(false);
   const [shuffle, setShuffle] = useState(false);
   const [duration, setDuration] = useState(activeSong?.duration || 1);
-  const soundRef = useRef(null);
+  const soundRef: MutableRefObject<ReactHowler | null> = useRef(null);
   const repeatRef = useRef(repeat);
-  const setActiveSong = useStoreActions(
-    (actions: any) => actions.changeActiveSong
-  );
+  const setActiveSong = useStoreActions((actions) => actions.changeActiveSong);
 
   useEffect(() => {
-    let timerId;
+    let timerId: number;
 
     if (playing) {
       const f = () => {
-        setSeek(soundRef.current.seek());
-        timerId = requestAnimationFrame(f);
+        if (soundRef.current) {
+          setSeek(soundRef.current.seek());
+          timerId = requestAnimationFrame(f);
+        }
       };
 
       timerId = requestAnimationFrame(f);
       return () => cancelAnimationFrame(timerId);
     }
-
-    cancelAnimationFrame(timerId);
   }, [playing]);
 
   useEffect(() => {
@@ -48,7 +67,7 @@ const Player = ({ songs, activeSong, volume }) => {
   }, [activeSong, songs]);
 
   useEffect(() => {
-    if (activeSong && songs) {
+    if (activeSong && songs && index) {
       setActiveSong(songs[index]);
       setSeek(0.0);
       setPlaying(true);
@@ -59,7 +78,7 @@ const Player = ({ songs, activeSong, volume }) => {
     repeatRef.current = repeat;
   }, [repeat]);
 
-  const setPlayState = (bool) => {
+  const setPlayState = (bool: boolean) => {
     setPlaying(bool);
   };
 
@@ -93,7 +112,7 @@ const Player = ({ songs, activeSong, volume }) => {
   };
 
   const onEnd = () => {
-    if (repeatRef.current) {
+    if (repeatRef.current && soundRef.current) {
       setSeek(0.0);
       soundRef.current.seek(0);
     } else {
@@ -102,14 +121,18 @@ const Player = ({ songs, activeSong, volume }) => {
   };
 
   const onLoad = () => {
-    const songDuration = soundRef.current.duration();
-    setDuration(songDuration);
-    setLoaded(true);
+    if (soundRef.current) {
+      const songDuration = soundRef.current.duration();
+      setDuration(songDuration);
+      setLoaded(true);
+    }
   };
 
-  const onSeek = (e) => {
-    setSeek(e);
-    soundRef.current.seek(e);
+  const onSeek = (e: number) => {
+    if (soundRef.current) {
+      setSeek(e);
+      soundRef.current.seek(e);
+    }
   };
 
   return (
@@ -119,7 +142,7 @@ const Player = ({ songs, activeSong, volume }) => {
         onEnd={onEnd}
         playing={playing && loaded}
         preload={true}
-        src={[activeSong?.url]}
+        src={[activeSong?.url as string]}
         ref={soundRef}
         volume={volume}
       />

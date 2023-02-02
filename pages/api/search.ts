@@ -6,9 +6,15 @@ interface JwtPayLoad {
   id: number;
 }
 
-interface RequestQuery {
-  query: string;
-}
+type UserData = {
+  id: number;
+  createdAt: Date;
+  UpdatedAt: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,7 +23,7 @@ export default async function handler(
   const token = req.cookies.GROOVE_ACCESS_TOKEN;
 
   if (token) {
-    let user;
+    let user: UserData | null;
 
     try {
       const { id } = jwt.verify(token, "hello") as JwtPayLoad;

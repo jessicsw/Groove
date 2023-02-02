@@ -1,6 +1,14 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import Skeleton from "./Skeleton";
+import { useEffect, useState, PropsWithChildren, ReactElement } from "react";
+
+type GradientLayoutProps = {
+  color: string;
+  roundImage: boolean;
+  image: string;
+  subtitle: string;
+  title: string;
+  description: string | ReactElement;
+};
 
 const GradientLayout = ({
   color,
@@ -10,8 +18,8 @@ const GradientLayout = ({
   subtitle,
   title,
   description,
-}) => {
-  const [bgColor, setbgColor] = useState(null);
+}: PropsWithChildren<GradientLayoutProps>) => {
+  const [bgColor, setbgColor] = useState<string | null>(null);
   useEffect(() => {
     const bgGradients = {
       lime: "from-lime-600",
@@ -21,7 +29,7 @@ const GradientLayout = ({
       blue: "from-blue-600",
     };
 
-    setbgColor(bgGradients[color]);
+    setbgColor(bgGradients[color as keyof typeof bgGradients]);
   }, []);
 
   return (

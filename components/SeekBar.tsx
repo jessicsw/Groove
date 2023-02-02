@@ -1,9 +1,16 @@
 import { Range, getTrackBackground } from "react-range";
 
-const SeekBar = ({ seek, duration, onChange, step }) => {
+type SeekBarProps = {
+  seek: Array<number>;
+  duration: number;
+  onChange: (values: number) => void;
+  step: number;
+};
+
+const SeekBar = ({ seek, duration, onChange, step }: SeekBarProps) => {
   return (
     <Range
-      values={[seek]}
+      values={seek}
       step={step}
       min={0}
       max={duration}

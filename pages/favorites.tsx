@@ -4,10 +4,41 @@ import prisma from "../lib/prisma";
 import Image from "next/image";
 import { formatPlaylistDuration } from "../lib/formatters";
 import { validateToken } from "../lib/auth";
+import { GetServerSideProps } from "next";
 
-const Favorites = ({ user, songs }) => {
+type Artist = {
+  id: number;
+  image: string;
+  name: string;
+};
+
+type Song = {
+  duration: number;
+  id: number;
+  name: string;
+  url: string;
+  artistId: number;
+  artist: Artist;
+  createdAt: Date;
+};
+
+type UserData = {
+  id: number;
+  createdAt: Date;
+  UpdatedAt: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
+
+interface JwtPayLoad {
+  id: number;
+}
+
+const Favorites = ({ user, songs }: { user: UserData; songs: Array<Song> }) => {
   const favoritesDuration = songs?.reduce((acc, el) => {
-    return acc + parseInt(el.duration);
+    return acc + el.duration;
   }, 0);
 
   return (
@@ -45,15 +76,14 @@ const Favorites = ({ user, songs }) => {
   );
 };
 
-interface JwtPayLoad {
-  id: number;
-}
-
-export async function getServerSideProps({ query, req }) {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   let user;
 
+  req.cookies;
   try {
-    user = validateToken(req.cookies.GROOVE_ACCESS_TOKEN) as JwtPayLoad;
+    user = validateToken(
+      req.cookies.GROOVE_ACCESS_TOKEN as string
+    ) as JwtPayLoad;
   } catch (error) {
     return {
       redirect: {
@@ -95,6 +125,6 @@ export async function getServerSideProps({ query, req }) {
       songs: JSON.parse(JSON.stringify(songs)),
     },
   };
-}
+};
 
 export default Favorites;

@@ -10,7 +10,7 @@ export const bgGradients = {
   blue: "from-blue-600",
 };
 
-export const getBGColor = (id) => {
+export const getBGColor = (id: number) => {
   const colors = ["gray", "red", "lime", "cyan", "blue"];
 
   return colors[id - 1] || colors[Math.floor(Math.random() * colors.length)];

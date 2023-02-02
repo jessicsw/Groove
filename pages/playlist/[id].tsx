@@ -5,17 +5,58 @@ import Image from "next/image";
 import { validateToken } from "../../lib/auth";
 import { formatPlaylistDuration } from "../../lib/formatters";
 import SearchSongs from "../../components/SearchSongs";
+import { GetServerSideProps } from "next";
 
-const getBGColor = (id) => {
+type Artist = {
+  id: number;
+  image: string;
+  name: string;
+};
+
+type Song = {
+  duration: number;
+  id: number;
+  name: string;
+  url: string;
+  artistId: number;
+  artist: Artist;
+  createdAt: Date;
+};
+
+type Playlist = {
+  UpdatedAt: Date;
+  createdAt: Date;
+  id: number;
+  name: string;
+  userId: number;
+  songs: Array<Song>;
+};
+
+type User = {
+  id: number;
+  createdAt: Date;
+  UpdatedAt: Date;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
+
+type PlaylistProps = {
+  playlist: Playlist;
+  user: User;
+};
+
+const getBGColor = (id: number) => {
   const colors = ["gray", "red", "lime", "cyan", "blue"];
 
   return colors[id - 1] || colors[Math.floor(Math.random() * colors.length)];
 };
 
-const Playlist = ({ playlist, user }) => {
+const Playlist = ({ playlist, user }: PlaylistProps) => {
   const color = getBGColor(playlist.id);
   const playlistDuration = playlist.songs.reduce((acc, el) => {
-    return acc + parseInt(el.duration);
+    return acc + el.duration;
   }, 0);
   return (
     <div className="h-full">
@@ -64,11 +105,16 @@ interface JwtPayLoad {
   id: number;
 }
 
-export const getServerSideProps = async ({ query, req }) => {
+export const getServerSideProps: GetServerSideProps = async ({
+  query,
+  req,
+}) => {
   let user;
 
   try {
-    user = validateToken(req.cookies.GROOVE_ACCESS_TOKEN) as JwtPayLoad;
+    user = validateToken(
+      req.cookies.GROOVE_ACCESS_TOKEN as string
+    ) as JwtPayLoad;
   } catch (error) {
     return {
       redirect: {
@@ -77,9 +123,10 @@ export const getServerSideProps = async ({ query, req }) => {
       },
     };
   }
+
   const [playlist] = await prisma.playlist.findMany({
     where: {
-      id: +query.id,
+      id: query.id ? +query.id : undefined,
       userId: user.id,
     },
     include: {
