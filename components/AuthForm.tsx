@@ -13,6 +13,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [error, setError] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -23,6 +24,10 @@ const AuthForm = ({ mode }: AuthFormProps) => {
       mode === "login"
         ? await authorizeLogin({ email, password })
         : await createUser({ email, password, firstName, lastName });
+
+    if (user.error) {
+      setError((state) => !state);
+    }
 
     setIsLoading(false);
     router.push("/");
@@ -35,6 +40,11 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           ? "To continue, log in to Groove."
           : "Sign up with your email address"}
       </div>
+      {error ? (
+        <div className="rounded-sm bg-red-500 p-3">
+          Incorrect username or password.
+        </div>
+      ) : null}
       <form
         id={mode}
         onSubmit={handleSubmit}

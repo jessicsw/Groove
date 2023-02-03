@@ -6,6 +6,7 @@ type UserData = {
   firstName: string;
   lastName: string;
   password: string;
+  error: string;
 };
 
 type SongData = {
