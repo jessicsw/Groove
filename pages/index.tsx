@@ -27,7 +27,7 @@ type HomeProps = {
 };
 
 export default function Home({ artists, songs }: HomeProps) {
-  const { data: user } = useSWR("/api/me", fetcherUser);
+  const { data: user, isLoading } = useSWR("/api/me", fetcherUser);
 
   return (
     <GradientLayout
@@ -37,6 +37,7 @@ export default function Home({ artists, songs }: HomeProps) {
       description={`${user?.playlistCount} Public Playlists • 3 Followers • 3 Following`}
       subtitle="profile"
       image={`https://picsum.photos/seed/${user?.id}/400`}
+      isLoading={isLoading}
     >
       <div className="whitespace-nowrap text-xl font-semibold">
         Top artists this month

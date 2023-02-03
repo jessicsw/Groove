@@ -13,10 +13,10 @@ export default function App({ Component, pageProps }: CustomAppProps) {
   return (
     <StoreProvider store={store}>
       {Component.auth ? (
-        <Component {...pageProps} />
+        <Component className="bg-black" {...pageProps} />
       ) : (
         <Layout>
-          <Component {...pageProps} />
+          <Component className="bg-black" {...pageProps} />
         </Layout>
       )}
     </StoreProvider>

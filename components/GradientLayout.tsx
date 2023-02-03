@@ -1,5 +1,6 @@
-import Image from "next/image";
 import { useEffect, useState, PropsWithChildren, ReactElement } from "react";
+import Image from "next/image";
+import GradientSkeleton from "./skeletons/GradientSkeleton";
 
 type GradientLayoutProps = {
   color: string;
@@ -8,6 +9,7 @@ type GradientLayoutProps = {
   subtitle: string;
   title: string;
   description: string | ReactElement;
+  isLoading: boolean;
 };
 
 const GradientLayout = ({
@@ -18,6 +20,7 @@ const GradientLayout = ({
   subtitle,
   title,
   description,
+  isLoading,
 }: PropsWithChildren<GradientLayoutProps>) => {
   const [bgColor, setbgColor] = useState<string | null>(null);
   useEffect(() => {
@@ -36,31 +39,37 @@ const GradientLayout = ({
     <div
       className={`h-full overflow-y-scroll bg-gradient-to-b ${bgColor} w-[calc(100vw-250px)] to-black text-white`}
     >
-      <div className="flex h-[300px] items-center pl-7">
-        <div className="flex items-end">
-          <div className="relative h-[230px] w-[230px]">
-            <Image
-              className={`${roundImage && "rounded-full"} drop-shadow-2xl`}
-              width={400}
-              height={400}
-              style={{ objectFit: "cover" }}
-              src={image}
-              alt="avatar"
-            />
-          </div>
-          <div className="ml-6">
-            <div className="text-[12px] font-semibold uppercase">
-              {subtitle}
+      {isLoading ? (
+        <div className="delay-1000 duration-1000 ease-in-out">
+          <GradientSkeleton />
+        </div>
+      ) : (
+        <div className="flex h-[300px] items-center pl-7">
+          <div className="flex items-end">
+            <div className="h-[230px] w-[230px]">
+              <Image
+                className={`${roundImage && "rounded-full"} drop-shadow-2xl`}
+                width={400}
+                height={400}
+                style={{ objectFit: "cover" }}
+                src={image}
+                alt="avatar"
+              />
             </div>
-            <div className="h-[120px]">
-              <h1 className="whitespace-nowrap text-7xl font-bold leading-relaxed transition ease-in-out">
-                {title}
-              </h1>
+            <div className="ml-6">
+              <div className="text-[12px] font-semibold uppercase">
+                {subtitle}
+              </div>
+              <div className="h-[120px]">
+                <h1 className="whitespace-nowrap text-7xl font-bold leading-relaxed transition ease-in-out">
+                  {title}
+                </h1>
+              </div>
+              <div className="text-sm">{description}</div>
             </div>
-            <div className="text-sm">{description}</div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="h-full w-full bg-black bg-opacity-10 p-9">{children}</div>
     </div>
