@@ -9,6 +9,7 @@ import { fetchPlaylists } from "../lib/fetchers";
 import { v4 as uuidv4 } from "uuid";
 import useSWR from "swr";
 import { MouseEventHandler } from "react";
+import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 
 type Playlist = {
   UpdatedAt: Date;
@@ -60,7 +61,7 @@ const Sidebar = () => {
     }
   };
 
-  if (isLoading) return <div className="text-white">Loading...</div>;
+  if (isLoading) return <SidebarSkeleton />;
   return (
     <div className="h-[calc(100vh-100px)] w-full bg-black p-5 text-gray-400">
       <div className="h-full">
