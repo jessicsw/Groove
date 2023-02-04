@@ -9,6 +9,7 @@ import {
   IoVolumeLowSharp,
   IoVolumeMuteSharp,
 } from "react-icons/io5";
+import Image from "next/image";
 
 const PlayerBar = () => {
   const songs = useStoreState((state) => state.activeSongs);
@@ -33,10 +34,12 @@ const PlayerBar = () => {
         <div className="w-[20%]">
           {activeSong ? (
             <div className="flex w-full items-center">
-              <img
+              <Image
                 src={activeSong.artist.image}
                 alt="active song album cover"
                 className="h-14 w-14"
+                height={400}
+                width={400}
               />
               <div className="flex flex-col pl-4">
                 <div className="whitespace-nowrap text-[13px]">

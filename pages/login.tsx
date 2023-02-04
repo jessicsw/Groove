@@ -27,7 +27,7 @@ const LogIn = () => {
           </div>
         </div>
         <div className="text-center text-xl font-semibold">
-          Don't have an account?
+          Don&apos;t have an account?
         </div>
         <button
           onClick={() => router.replace("/signup")}

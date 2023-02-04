@@ -74,7 +74,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
         </label>
         {mode === "signup" && (
           <label className="mt-2 flex w-full flex-col" htmlFor="firstName">
-            What's your first name?
+            What&quot;s your first name?
             <input
               id="firstName"
               onChange={(e) => setFirstName(e.target.value)}
@@ -87,7 +87,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
         )}
         {mode === "signup" && (
           <label className="mt-2 flex w-full flex-col" htmlFor="lastName">
-            What's your last name?
+            What&quot;s your last name?
             <input
               id="lastName"
               onChange={(e) => setLastName(e.target.value)}

@@ -7,6 +7,7 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { addSong } from "../lib/mutations";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface JwtPayLoad {
   id: number;
@@ -110,7 +111,7 @@ const Search = ({ playlists }: { playlists: Array<Playlist> }) => {
       </div>
       <div className="w-full py-5">
         {results?.length === 0 ? (
-          <div>No results found for "{query}"</div>
+          <div>No results found for &quot;{query}&quot;</div>
         ) : (
           <table className="w-full">
             <tbody>
@@ -121,10 +122,12 @@ const Search = ({ playlists }: { playlists: Array<Playlist> }) => {
                 >
                   <td className="rounded-l" />
                   <td className="flex items-center py-1 pl-4">
-                    <img
+                    <Image
                       src={song.artist.image}
                       alt="album cover"
                       className="h-10 w-10"
+                      width={400}
+                      height={400}
                     />
                     <div className="ml-5 flex flex-col">
                       <div className="whitespace-nowrap leading-6 text-white">

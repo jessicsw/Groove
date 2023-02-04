@@ -2,6 +2,7 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { formatTime, formatDate } from "../lib/formatters";
 import { useStoreActions } from "../lib/hooks";
+import Image from "next/image";
 
 type Artist = {
   id: number;
@@ -83,10 +84,12 @@ const SongsTable = ({ songs, profile }: SongsTableProps) => {
             >
               <td className="rounded-l pl-5">{index + 1}</td>
               <td className="flex items-center py-1">
-                <img
+                <Image
                   src={song.artist.image}
                   alt="album cover"
                   className="h-10 w-10"
+                  width={400}
+                  height={400}
                 />
                 <div className="ml-5 flex flex-col">
                   <div className="whitespace-nowrap leading-6 text-white">
