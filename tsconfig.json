@@ -27,10 +27,10 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx",
-    "./components/**/*.ts",
-    "./components/**/*.tsx",
-    "./prisma/**.*.ts"
+    "**/*.tsx"
+    // "./components/**/*.ts",
+    // "./components/**/*.tsx",
+    // "./prisma/**.*.ts"
   ],
   "exclude": ["node_modules"]
 }
