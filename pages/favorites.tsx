@@ -43,6 +43,7 @@ const Favorites = ({ user, songs }: { user: UserData; songs: Array<Song> }) => {
 
   return (
     <GradientLayout
+      isLoading={false}
       color="blue"
       roundImage={false}
       image="/favorites.jpg"
