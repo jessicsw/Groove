@@ -22,12 +22,14 @@ module.exports = {
     "no-param-reassign": "off",
     "import/extensions": [
       "error",
-      "ignorePackages",
+      "always",
       {
-        ts: "never",
-        tsx: "never",
-        jsx: "never",
-        js: "never",
+        pattern: {
+          ts: "never",
+          tsx: "never",
+          jsx: "never",
+          js: "never",
+        },
       },
     ],
     "consistent-return": "off",
