@@ -16,7 +16,11 @@ Groove utilizes the following:
 * bcrypt
 * create-next-app
 
+<<<<<<< HEAD
 <img width="550" height="500" src="/demo/demo.gif">
+=======
+<img width="600" height="300" src="/demo/demo.gif">
+>>>>>>> be11b89 (Updated readme)
 
 ## Installation
 
