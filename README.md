@@ -1,20 +1,20 @@
 ## Groove
 
-Groove is a Spotify clone 
+Groove is a music player inspired by Spotify's web player experience. It features the audio player with music and volume control, playlist creation, and music search.
 
 LIVE LINK
 
-Groove utilizes the following:
+Tech Stack:
 
 * NextJS
 * React
+* PostgreSQL
 * Prisma
 * Typescript
 * TailwindCSS
 * SWR
 * Easy Peasy
 * bcrypt
-* create-next-app
 
 <p align="center">
   <img width="650" height="300" src="/demo/demo.gif"/>
