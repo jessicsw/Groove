@@ -22,7 +22,7 @@ module.exports = {
     "no-param-reassign": "off",
     "import/extensions": [
       "error",
-      "always",
+      "never",
       {
         pattern: {
           ts: "never",
