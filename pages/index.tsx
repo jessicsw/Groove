@@ -39,7 +39,6 @@ export default function Home({ artists, songs }: HomeProps) {
       image={`https://picsum.photos/seed/${user?.id}/400`}
       isLoading={isLoading}
     >
-      <img width="550" height="300" src="/demo/demo.gif" />
       <div className="whitespace-nowrap text-xl font-semibold">
         Top artists this month
       </div>
