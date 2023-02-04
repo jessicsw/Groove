@@ -16,16 +16,14 @@ Groove utilizes the following:
 * bcrypt
 * create-next-app
 
-<p align="center">
-  <img width="550" height="300" src="demo/demo.gif">
-</p>
+<img width="550" height="300" src="/demo/demo.gif">
 
 ## Installation
 
 ### Clone
 
 ```bash
-
+https://github.com/jessicsw/Groove.git
 ```
 
 ### Setup
