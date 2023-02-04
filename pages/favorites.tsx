@@ -1,4 +1,4 @@
-import SongsTable from "../components/SongsTable";
+import SongsTable from "@/components/SongsTable";
 import GradientLayout from "../components/GradientLayout";
 import prisma from "../lib/prisma";
 import Image from "next/image";
