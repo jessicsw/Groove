@@ -26,6 +26,8 @@ module.exports = {
       {
         ts: "never",
         tsx: "never",
+        jsx: "never",
+        js: "never",
       },
     ],
     "consistent-return": "off",
