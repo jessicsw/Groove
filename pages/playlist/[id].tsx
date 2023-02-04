@@ -61,6 +61,7 @@ const Playlist = ({ playlist, user }: PlaylistProps) => {
   return (
     <div className="h-full">
       <GradientLayout
+        isLoading={false}
         subtitle="playlist"
         color={color}
         roundImage={false}

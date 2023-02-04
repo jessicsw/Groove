@@ -73,7 +73,7 @@ const Sidebar = () => {
             height="50"
             width="50"
           />
-          <span className="pl-5 text-white">groove</span>
+          <span className="pl-5 text-white">Groove</span>
         </div>
         <div className="h-[200px]">
           <ul className="mb-9 text-gray-300">
@@ -101,21 +101,23 @@ const Sidebar = () => {
           </ul>
           <Divider className="my-0 mx-auto bg-gray-700" />
         </div>
-        <div className="scroll h-[calc(100vh-390px)] hover:overflow-auto">
+        <div className="scroll h-[calc(100vh-390px)] overflow-y-auto">
           <ul>
-            {playlists?.map((playlist) => (
-              <li className="py-1 text-sm" key={playlist.id}>
-                <Link
-                  href={{
-                    pathname: "/playlist/[id]",
-                    query: { id: playlist.id },
-                  }}
-                  passHref
-                >
-                  {playlist.name}
-                </Link>
-              </li>
-            ))}
+            {playlists
+              ? playlists.map((playlist) => (
+                  <li className="py-1 text-sm" key={playlist.id}>
+                    <Link
+                      href={{
+                        pathname: "/playlist/[id]",
+                        query: { id: playlist.id },
+                      }}
+                      passHref
+                    >
+                      {playlist.name}
+                    </Link>
+                  </li>
+                ))
+              : null}
           </ul>
         </div>
       </div>

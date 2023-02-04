@@ -40,7 +40,7 @@ const GradientLayout = ({
       className={`h-full overflow-y-scroll bg-gradient-to-b ${bgColor} w-[calc(100vw-250px)] to-black text-white`}
     >
       {isLoading ? (
-        <div className="delay-1000 duration-1000 ease-in-out">
+        <div className="delay-300 duration-300 ease-in-out">
           <GradientSkeleton />
         </div>
       ) : (
@@ -71,7 +71,9 @@ const GradientLayout = ({
         </div>
       )}
 
-      <div className="h-full w-full bg-black bg-opacity-10 p-9">{children}</div>
+      <div className="h-screen w-full bg-black bg-opacity-10 p-9">
+        {children}
+      </div>
     </div>
   );
 };

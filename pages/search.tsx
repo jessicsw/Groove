@@ -5,8 +5,8 @@ import { fetchSearchResults } from "../lib/fetchers";
 import { IoSearchOutline } from "react-icons/io5";
 import { AiFillCaretDown } from "react-icons/ai";
 import { addSong } from "../lib/mutations";
-import Link from "next/link";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 
 interface JwtPayLoad {
   id: number;
@@ -41,11 +41,14 @@ const Search = ({ playlists }: { playlists: Array<Playlist> }) => {
   const [results, setResults] = useState<Array<Song> | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [songId, setSongId] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleOnClick = () => {
     setQuery("");
     setResults(null);
   };
+
+  console.log(playlists);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -68,6 +71,7 @@ const Search = ({ playlists }: { playlists: Array<Playlist> }) => {
   const handleAddSong = async (playlistId: string) => {
     try {
       await addSong({ songId: songId as string, playlistId });
+      router.replace(`/playlist/${playlistId}`);
     } catch (error) {
       console.error("Error with adding song");
     }
@@ -158,17 +162,15 @@ const Search = ({ playlists }: { playlists: Array<Playlist> }) => {
                         role="none"
                       >
                         {playlists.map((playlist) => (
-                          <Link
-                            href={`/playlist/${playlist.id}`}
+                          <a
                             className="block px-4 py-2 text-start text-sm text-white text-opacity-60 hover:overflow-y-visible hover:rounded-md hover:bg-white hover:bg-opacity-20"
-                            role="menuitem"
+                            role="playlistitem"
                             tabIndex={-1}
                             key={playlist.id}
-                            passHref
                             onClick={() => handleAddSong("" + playlist.id)}
                           >
                             {playlist.name}
-                          </Link>
+                          </a>
                         ))}
                       </div>
                     </div>
