@@ -2,7 +2,7 @@
 
 Groove is a music player inspired by Spotify's web player experience. It features the audio player with music and volume control, playlist creation, and music search.
 
-Check out the demo [here](groove-delta.vercel.app).
+Check out the demo [here](https://groove-delta.vercel.app/).
 
 Groove was built with:
 
