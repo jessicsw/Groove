@@ -64,6 +64,7 @@ const Player = ({ songs, activeSong, volume }: PlayerProps) => {
 
   useEffect(() => {
     setIndex(songs.findIndex((song) => song.id === activeSong?.id));
+    setPlaying(true);
   }, [activeSong, songs]);
 
   useEffect(() => {

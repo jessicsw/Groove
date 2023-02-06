@@ -72,9 +72,7 @@ const GradientLayout = ({
         </div>
       )}
 
-      <div className="h-screen w-full bg-black bg-opacity-10 p-9">
-        {children}
-      </div>
+      <div className="w-full bg-black bg-opacity-10 p-9">{children}</div>
     </div>
   );
 };
