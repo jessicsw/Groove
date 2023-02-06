@@ -76,7 +76,7 @@ export default function Home({ artists, songs }: HomeProps) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const artists = await prisma.artist.findMany();
   const songs = await prisma.song.findMany({
     include: {
@@ -89,7 +89,6 @@ export async function getServerSideProps() {
       },
     },
   });
-
   return {
     props: {
       artists: JSON.parse(JSON.stringify(artists)),

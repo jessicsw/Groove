@@ -1,13 +1,10 @@
-import prisma from "../lib/prisma";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { validateToken } from "../lib/auth";
 import { TfiMusicAlt } from "react-icons/tfi";
-import { fetchPlaylists } from "../lib/fetchers";
+import { fetchPlaylists, fetcherUser } from "../lib/fetchers";
 import useSWR from "swr";
 import { v4 as uuidv4 } from "uuid";
 import { addPlaylist } from "../lib/mutations";
-import { GetServerSideProps } from "next";
 
 type Playlist = {
   id: number;
@@ -17,64 +14,52 @@ type Playlist = {
   userId: number;
 };
 
-type User = {
-  id: number;
-  createdAt: Date;
-  UpdatedAt: Date;
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-};
-
-type LibraryProps = {
-  playlists: Array<Playlist>;
-  user: User;
-};
-
-interface JwtPayLoad {
-  id: number;
-}
-
-const Library = ({ playlists, user }: LibraryProps) => {
+const Library = () => {
   const router = useRouter();
-  const { mutate: mutatePlaylists } = useSWR("/api/playlist", fetchPlaylists);
+  const { data: playlists, mutate: mutatePlaylists } = useSWR(
+    "/api/playlist",
+    fetchPlaylists
+  );
+  const { data: user } = useSWR("/api/me", fetcherUser);
 
   const handleCreatePlaylist = async () => {
     const tempId = uuidv4();
+    let newPlaylist: Playlist;
 
-    const newPlaylist = { name: `Playlist #${playlists.length + 1}` };
-    try {
-      await mutatePlaylists((playlists) => {
-        return [
-          ...(playlists as Playlist[]),
-          {
-            ...newPlaylist,
-            id: tempId,
-            userId: user.id,
-          },
-        ] as Playlist[];
-      }, false);
+    if (playlists) {
+      newPlaylist = { name: `Playlist #${playlists.length + 1}` } as Playlist;
+      try {
+        await mutatePlaylists((playlists) => {
+          return [
+            ...(playlists as Playlist[]),
+            {
+              ...newPlaylist,
+              id: tempId,
+              userId: user.id,
+            },
+          ] as Playlist[];
+        }, false);
 
-      const json = await addPlaylist(newPlaylist);
-      await mutatePlaylists(
-        (playlists) =>
-          playlists?.map((playlist) => {
-            return `${playlist.id}` === tempId ? json : playlist;
-          }),
-        false
-      );
-      router.push(`/playlist/${json.id}`);
-    } catch (error) {
-      console.error("Error creating playlist in library");
+        const json = await addPlaylist(newPlaylist);
+        await mutatePlaylists(
+          (playlists) =>
+            playlists?.map((playlist) => {
+              return `${playlist.id}` === tempId ? json : playlist;
+            }),
+          false
+        );
+        router.push(`/playlist/${json.id}`);
+      } catch (error) {
+        console.error("Error creating playlist in library");
+      }
     }
   };
 
   return (
     <div className="h-[calc(100vh-100px)] w-full overflow-y-scroll bg-gradient-to-b from-purple-500 to-black p-9">
-      {playlists.length !== 0 ? (
+      {playlists?.length !== 0 ? (
         <div className="grid-col-4 grid gap-5 py-3">
-          {playlists.map((playlist) => (
+          {playlists?.map((playlist) => (
             <div
               key={playlist.name}
               onDoubleClick={() => router.push(`/playlist/${playlist.id}`)}
@@ -110,37 +95,6 @@ const Library = ({ playlists, user }: LibraryProps) => {
       )}
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  let user;
-
-  try {
-    user = validateToken(
-      req.cookies.GROOVE_ACCESS_TOKEN as string
-    ) as JwtPayLoad;
-  } catch (error) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/login",
-      },
-    };
-  }
-
-  const playlists = await prisma.playlist.findMany({
-    where: { userId: user.id },
-  });
-  const userData = await prisma.user.findUnique({
-    where: { id: user.id },
-  });
-
-  return {
-    props: {
-      playlists: JSON.parse(JSON.stringify(playlists)),
-      user: JSON.parse(JSON.stringify(userData)),
-    },
-  };
 };
 
 export default Library;

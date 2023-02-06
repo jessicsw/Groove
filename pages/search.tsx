@@ -1,25 +1,11 @@
-import prisma from "../lib/prisma";
-import { validateToken } from "../lib/auth";
 import { ChangeEvent, useState, KeyboardEvent } from "react";
-import { fetchSearchResults } from "../lib/fetchers";
+import { fetchPlaylists, fetchSearchResults } from "../lib/fetchers";
 import { IoSearchOutline } from "react-icons/io5";
 import { AiFillCaretDown } from "react-icons/ai";
 import { addSong } from "../lib/mutations";
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
-
-interface JwtPayLoad {
-  id: number;
-}
-
-type Playlist = {
-  id: number;
-  createdAt: Date;
-  UpdatedAt: Date;
-  name: string;
-  userId: number;
-};
+import useSWR from "swr";
 
 type Artist = {
   id: number;
@@ -36,12 +22,12 @@ type Song = {
   artist: Artist;
   createdAt: Date;
 };
-
-const Search = ({ playlists }: { playlists: Array<Playlist> }) => {
+const Search = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Array<Song> | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [songId, setSongId] = useState<string | null>(null);
+  const { data: playlists } = useSWR("/api/playlist", fetchPlaylists);
   const router = useRouter();
 
   const handleOnClick = () => {
@@ -162,7 +148,7 @@ const Search = ({ playlists }: { playlists: Array<Playlist> }) => {
                         className="scroll m-2 h-[200px] overflow-y-scroll"
                         role="none"
                       >
-                        {playlists.map((playlist) => (
+                        {playlists?.map((playlist) => (
                           <a
                             className="block px-4 py-2 text-start text-sm text-white text-opacity-60 hover:overflow-y-visible hover:rounded-md hover:bg-white hover:bg-opacity-20"
                             role="playlistitem"

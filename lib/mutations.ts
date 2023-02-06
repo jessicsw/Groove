@@ -27,11 +27,11 @@ type Playlist = {
   userId: number;
 };
 
-export const authorizeLogin = async (user: {
+export const authorizeLogin = (user: {
   email: string;
   password: string;
 }): Promise<UserData> => {
-  return await fetch(`${window.location.origin}/api/login`, {
+  return fetch(`${window.location.origin}/api/login`, {
     method: "POST",
     credentials: "include",
     headers: {
