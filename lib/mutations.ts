@@ -106,3 +106,12 @@ export const createUser = async (user: {
     return res.json();
   });
 };
+
+export const logoutUser = async () => {
+  return await fetch(`${window.location.origin}/api/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+};
