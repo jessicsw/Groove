@@ -29,6 +29,11 @@ export default async function handler(
       const { id } = jwt.verify(token, "hello") as JwtPayLoad;
       user = await prisma.user.findUnique({
         where: { id },
+        include: {
+          _count: {
+            select: { playlists: true },
+          },
+        },
       });
 
       if (!user) {
@@ -39,10 +44,7 @@ export default async function handler(
       res.json({ error: "Not authorized" });
       return;
     }
-    const playlistCount = await prisma.playlist.count({
-      where: { userId: user.id },
-    });
 
-    res.json({ ...user, playlistCount });
+    res.json({ ...user });
   }
 }

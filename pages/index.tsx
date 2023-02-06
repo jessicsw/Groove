@@ -34,7 +34,7 @@ export default function Home({ artists, songs }: HomeProps) {
       color="cyan"
       roundImage={true}
       title={`${user?.firstName} ${user?.lastName}`}
-      description={`${user?.playlistCount} Public Playlists • 3 Followers • 3 Following`}
+      description={`${user?._count.playlists} Public Playlists • 3 Followers • 3 Following`}
       subtitle="profile"
       image={`https://picsum.photos/seed/${user?.id}/400`}
       isLoading={isLoading}

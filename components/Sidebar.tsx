@@ -38,7 +38,7 @@ const Sidebar = () => {
       };
 
       try {
-        await mutatePlaylists((playlists) => {
+        mutatePlaylists((playlists) => {
           return [
             ...(playlists as Playlist[]),
             { ...newPlaylist, id: tempId },
@@ -47,7 +47,7 @@ const Sidebar = () => {
 
         const json = await addPlaylist(newPlaylist);
 
-        await mutatePlaylists(
+        mutatePlaylists(
           (playlists) =>
             playlists?.map((playlist) => {
               return `${playlist.id}` === tempId ? json : playlist;
@@ -60,7 +60,6 @@ const Sidebar = () => {
       }
     }
   };
-
   if (isLoading) return <SidebarSkeleton />;
   return (
     <div className="h-[calc(100vh-100px)] w-full bg-black p-5 text-gray-400">
@@ -103,21 +102,19 @@ const Sidebar = () => {
         </div>
         <div className="scroll h-[calc(100vh-390px)] overflow-y-auto">
           <ul>
-            {playlists
-              ? playlists.map((playlist) => (
-                  <li className="py-1 text-sm" key={playlist.id}>
-                    <Link
-                      href={{
-                        pathname: "/playlist/[id]",
-                        query: { id: playlist.id },
-                      }}
-                      passHref
-                    >
-                      {playlist.name}
-                    </Link>
-                  </li>
-                ))
-              : null}
+            {playlists?.map((playlist) => (
+              <li className="py-1 text-sm" key={playlist.id}>
+                <Link
+                  href={{
+                    pathname: "/playlist/[id]",
+                    query: { id: playlist.id },
+                  }}
+                  passHref
+                >
+                  {playlist.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

@@ -70,7 +70,6 @@ export default async function handler(
       res.json(playlists);
     }
   } else {
-    res.status(401);
-    res.json({ error: "Not authorized" });
+    res.status(401).send("Internal Server Error.");
   }
 }
