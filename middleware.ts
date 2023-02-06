@@ -1,17 +1,22 @@
-//At this directory level, this middleware will fire first before any of the apis under /pages/api
-
-// This runs in a webworker-like environment.
-// Will not run in node env, so we can't check user
 import { NextResponse, NextRequest } from "next/server";
 
-const signedInPages = ["/", "/playlist", "/library"];
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico|login).*)",
+  ],
+};
 
 export default function middleware(req: NextRequest) {
-  if (signedInPages.find((p) => p === req.nextUrl.pathname)) {
-    const token = req.cookies.get("GROOVE_ACCESS_TOKEN")?.value;
-    const authPage = new URL("/login", req.url);
-    if (!token) {
-      return NextResponse.redirect(authPage);
-    }
+  const token = req.cookies.get("GROOVE_ACCESS_TOKEN")?.value;
+  const authPage = new URL("/login", req.url);
+  if (!token) {
+    return NextResponse.redirect(authPage);
   }
 }

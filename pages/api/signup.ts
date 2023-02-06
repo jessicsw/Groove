@@ -4,7 +4,7 @@ import cookie from "cookie";
 import prisma from "../../lib/prisma";
 import { NextApiResponse, NextApiRequest } from "next";
 
-export default async function signUp(
+export default async function signup(
   req: NextApiRequest,
   res: NextApiResponse
 ) {

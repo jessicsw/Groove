@@ -10,7 +10,7 @@ type RequestBody = {
   password: string;
 };
 
-export default async function logIn(req: NextApiRequest, res: NextApiResponse) {
+export default async function login(req: NextApiRequest, res: NextApiResponse) {
   const { email, password }: RequestBody = req.body;
 
   const user = await prisma.user.findUnique({
