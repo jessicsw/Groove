@@ -72,6 +72,7 @@ const Player = ({ songs, activeSong, volume }: PlayerProps) => {
       setSeek(0.0);
       setPlaying(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
 
   useEffect(() => {

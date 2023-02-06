@@ -33,6 +33,7 @@ const GradientLayout = ({
     };
 
     setbgColor(bgGradients[color as keyof typeof bgGradients]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
