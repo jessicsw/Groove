@@ -28,7 +28,7 @@ const LikedSongs = ({ songId }: { songId: number }) => {
   const [liked, setLiked] = useState<Array<number> | []>([]);
 
   useEffect(() => {
-    const idArr: Array<number> = favorites.map((song: Song) => song.id);
+    const idArr: Array<number> = favorites?.map((song: Song) => song.id);
     setLiked(idArr);
   }, [favorites]);
 
@@ -63,13 +63,13 @@ const LikedSongs = ({ songId }: { songId: number }) => {
       <IoMdHeartEmpty
         onClick={handleOnClick}
         className={`${
-          (liked as number[]).includes(songId) ? "hidden" : "block"
+          (liked as number[])?.includes(songId) ? "hidden" : "block"
         } h-6 w-6 hover:text-white`}
       />
       <IoMdHeart
         onClick={handleOnClick}
         className={`${
-          (liked as number[]).includes(songId) ? "block" : "hidden"
+          (liked as number[])?.includes(songId) ? "block" : "hidden"
         } h-6 w-6 text-green-500 hover:text-green-400`}
       />
     </div>

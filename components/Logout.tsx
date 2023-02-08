@@ -21,11 +21,11 @@ const Logout = () => {
   };
 
   return (
-    <div className="m-1 text-xs font-semibold text-white">
+    <div className="m-1 rounded-full bg-black text-xs font-semibold text-white">
       <button
         type="button"
         onClick={handleDropDownMenu}
-        className="relative rounded-full bg-black p-1.5 hover:bg-opacity-60"
+        className="relative rounded-full bg-black p-1.5 hover:bg-white hover:bg-opacity-20"
       >
         <div className="flex items-center">
           <Image
