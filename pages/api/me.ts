@@ -33,6 +33,14 @@ export default async function handler(
           _count: {
             select: { playlists: true },
           },
+          favorites: {
+            select: {
+              id: true,
+              name: true,
+              artist: true,
+              duration: true,
+            },
+          },
         },
       });
 

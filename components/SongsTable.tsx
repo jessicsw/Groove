@@ -3,6 +3,7 @@ import { IoPlayCircleSharp } from "react-icons/io5";
 import { formatTime, formatDate } from "../lib/formatters";
 import { useStoreActions } from "../lib/hooks";
 import Image from "next/image";
+import LikedSongs from "./LikedSongs";
 
 type Artist = {
   id: number;
@@ -80,7 +81,7 @@ const SongsTable = ({ songs, profile }: SongsTableProps) => {
             <tr
               key={song.id}
               onDoubleClick={() => handlePlay(song)}
-              className=" hover:bg-white hover:bg-opacity-20"
+              className="hover:bg-white hover:bg-opacity-20"
             >
               <td className="rounded-l pl-5">{index + 1}</td>
               <td className="flex items-center py-1">
@@ -102,6 +103,9 @@ const SongsTable = ({ songs, profile }: SongsTableProps) => {
               </td>
               <td className="whitespace-nowrap">
                 {formatDate(song.createdAt)}
+              </td>
+              <td>
+                <LikedSongs songId={song.id} />
               </td>
               <td className="rounded-r">{formatTime(song.duration)}</td>
             </tr>

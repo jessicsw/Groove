@@ -115,3 +115,29 @@ export const logoutUser = async () => {
     },
   }).then((res) => res.json());
 };
+
+export const addFavorite = async (songId: number) => {
+  return await fetch(`${window.location.origin}/api/favorites`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      songId,
+      mode: "connect",
+    }),
+  }).then((res) => res.json());
+};
+
+export const removeFavorite = async (songId: number) => {
+  return await fetch(`${window.location.origin}/api/favorites`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      songId,
+      mode: "disconnect",
+    }),
+  }).then((res) => res.json());
+};

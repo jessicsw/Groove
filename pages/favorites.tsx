@@ -30,14 +30,15 @@ type UserData = {
   firstName: string;
   lastName: string;
   password: string;
+  favorites: Array<Song>;
 };
 
 interface JwtPayLoad {
   id: number;
 }
 
-const Favorites = ({ user, songs }: { user: UserData; songs: Array<Song> }) => {
-  const favoritesDuration = songs?.reduce((acc, el) => {
+const Favorites = ({ user }: { user: UserData }) => {
+  const favoritesDuration = user.favorites?.reduce((acc, el) => {
     return acc + el.duration;
   }, 0);
 
@@ -63,16 +64,16 @@ const Favorites = ({ user, songs }: { user: UserData; songs: Array<Song> }) => {
               />
             </div>
             {`${user.firstName}`}
-            {songs?.length === 0
+            {user.favorites?.length === 0
               ? null
-              : ` • ${songs?.length} songs, ${
+              : ` • ${user.favorites?.length} songs, ${
                   formatPlaylistDuration(favoritesDuration).minutes
                 } min ${formatPlaylistDuration(favoritesDuration).seconds} sec`}
           </div>
         </>
       }
     >
-      <SongsTable songs={songs} profile={false} />
+      <SongsTable songs={user.favorites} profile={false} />
     </GradientLayout>
   );
 };
@@ -103,18 +104,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
           url: true,
           artist: true,
           id: true,
-        },
-      },
-    },
-  });
-
-  const songs = await prisma.song.findMany({
-    include: {
-      artist: {
-        select: {
-          name: true,
-          image: true,
-          id: true,
+          createdAt: true,
         },
       },
     },
@@ -123,7 +113,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   return {
     props: {
       user: JSON.parse(JSON.stringify(userData)),
-      songs: JSON.parse(JSON.stringify(songs)),
     },
   };
 };
