@@ -37,42 +37,39 @@ const GradientLayout = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (isLoading) return <GradientSkeleton />;
   return (
     <div
-      className={`h-full overflow-y-scroll bg-gradient-to-b ${bgColor} w-[calc(100vw-250px)] to-black text-white`}
+      className={`relative h-full overflow-y-scroll bg-gradient-to-b ${bgColor} w-[calc(100vw-250px)] to-black text-white`}
     >
-      {isLoading ? (
-        <div className="delay-300 duration-300 ease-in-out">
-          <GradientSkeleton />
-        </div>
-      ) : (
-        <div className="flex h-[300px] items-center pl-7">
-          <div className="flex items-end">
-            <div className="h-[230px] w-[230px]">
-              <Image
-                className={`${roundImage && "rounded-full"} drop-shadow-2xl`}
-                width={400}
-                height={400}
-                style={{ objectFit: "cover" }}
-                src={image}
-                alt="avatar"
-              />
+      <div className="absolute right-0">
+        <Logout />
+      </div>
+      <div className="flex h-[300px] items-center pl-7">
+        <div className="flex items-end">
+          <div className="h-[230px] w-[230px]">
+            <Image
+              className={`${roundImage && "rounded-full"} drop-shadow-2xl`}
+              width={400}
+              height={400}
+              style={{ objectFit: "cover" }}
+              src={image}
+              alt="avatar"
+            />
+          </div>
+          <div className="ml-6">
+            <div className="text-[12px] font-semibold uppercase">
+              {subtitle}
             </div>
-            <div className="ml-6">
-              <div className="text-[12px] font-semibold uppercase">
-                {subtitle}
-              </div>
-              <div className="h-[120px]">
-                <h1 className="whitespace-nowrap text-7xl font-bold leading-relaxed transition ease-in-out">
-                  {title}
-                </h1>
-              </div>
-              <div className="text-sm">{description}</div>
+            <div className="h-[120px]">
+              <h1 className="whitespace-nowrap text-7xl font-bold leading-relaxed transition ease-in-out">
+                {title}
+              </h1>
             </div>
+            <div className="text-sm">{description}</div>
           </div>
         </div>
-      )}
-
+      </div>
       <div className="w-full bg-black bg-opacity-10 p-9">{children}</div>
     </div>
   );

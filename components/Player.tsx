@@ -215,7 +215,7 @@ const Player = ({ songs, activeSong, volume }: PlayerProps) => {
         <div className="w-[22%] pr-2 text-end text-[12px] text-gray-400">
           {activeSong && formatTime(seek)}
         </div>
-        <div className="mt-3 h-[18px] w-[73px]">
+        <div className="mt-3 h-[18px] w-[56%]">
           <SeekBar
             seek={[seek]}
             step={0.1}

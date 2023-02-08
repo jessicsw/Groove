@@ -177,30 +177,3 @@ const Search = () => {
 };
 
 export default Search;
-
-// export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-//   let user;
-
-//   try {
-//     user = validateToken(
-//       req.cookies.GROOVE_ACCESS_TOKEN as string
-//     ) as JwtPayLoad;
-//   } catch (error) {
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: "/login",
-//       },
-//     };
-//   }
-
-//   const playlists = await prisma.playlist.findMany({
-//     where: { userId: user.id },
-//   });
-
-//   return {
-//     props: {
-//       playlists: JSON.parse(JSON.stringify(playlists)),
-//     },
-//   };
-// };
