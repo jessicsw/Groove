@@ -3,7 +3,7 @@ import prisma from "../lib/prisma";
 import useSWR from "swr";
 import Image from "next/image";
 import SongsTable from "../components/SongsTable";
-import { fetcherUser } from "@/lib/fetchers";
+import { fetchUser } from "@/lib/fetchers";
 
 type Artist = {
   id: number;
@@ -27,7 +27,7 @@ type HomeProps = {
 };
 
 export default function Home({ artists, songs }: HomeProps) {
-  const { data: user, isLoading } = useSWR("/api/me", fetcherUser);
+  const { data: user, isLoading } = useSWR("/api/me", fetchUser);
 
   return (
     <GradientLayout

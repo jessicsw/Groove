@@ -1,4 +1,4 @@
-import { fetcherUser } from "@/lib/fetchers";
+import { fetchUser } from "@/lib/fetchers";
 import { AiFillCaretDown } from "react-icons/ai";
 import Image from "next/image";
 import useSWR from "swr";
@@ -8,7 +8,7 @@ import { logoutUser } from "@/lib/mutations";
 
 const Logout = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const { data: user } = useSWR("/api/me", fetcherUser);
+  const { data: user } = useSWR("/api/me", fetchUser);
   const router = useRouter();
 
   const handleDropDownMenu = () => {

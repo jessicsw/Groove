@@ -6,6 +6,16 @@ type Playlist = {
   userId: number;
 };
 
+type SongData = {
+  id: number;
+  createdAt: Date;
+  UpdatedAt: Date;
+  name: string;
+  artistId: number;
+  duration: number;
+  url: string;
+};
+
 export async function fetchPlaylists(url: string): Promise<Array<Playlist>> {
   return await fetch(`${window.location.origin}${url}`, {
     method: "GET",
@@ -41,7 +51,22 @@ export async function fetchSearchResults(params: string) {
   });
 }
 
-export async function fetcherUser(url: string) {
+export async function fetchUser(url: string) {
+  return await fetch(`${window.location.origin}${url}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    if (res.status > 399 && res.status < 200) {
+      throw new Error();
+    }
+    return res.json();
+  });
+}
+
+export async function fetchFavorites(url: string) {
   return await fetch(`${window.location.origin}${url}`, {
     method: "GET",
     credentials: "include",

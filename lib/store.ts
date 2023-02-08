@@ -6,7 +6,7 @@ type Artist = {
   name: string;
 };
 
-type ActiveSong = {
+type Song = {
   duration: number;
   id: number;
   name: string;
@@ -16,10 +16,10 @@ type ActiveSong = {
 };
 
 export type ActiveSongsModel = {
-  activeSongs: Array<ActiveSong>;
-  activeSong: ActiveSong | null;
-  changeActiveSongs: Action<ActiveSongsModel, Array<ActiveSong>>;
-  changeActiveSong: Action<ActiveSongsModel, ActiveSong>;
+  activeSongs: Array<Song>;
+  activeSong: Song | null;
+  changeActiveSongs: Action<ActiveSongsModel, Array<Song>>;
+  changeActiveSong: Action<ActiveSongsModel, Song>;
 };
 
 export const store = createStore<ActiveSongsModel>({

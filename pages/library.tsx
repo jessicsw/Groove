@@ -21,7 +21,7 @@ const Library = () => {
     "/api/playlist",
     fetchPlaylists
   );
-  const { data: user } = useSWR("/api/me", fetcherUser);
+  const { data: user } = useSWR("/api/me", fetchUser);
 
   const handleCreatePlaylist = async () => {
     const tempId = uuidv4();
