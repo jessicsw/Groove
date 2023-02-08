@@ -12,7 +12,7 @@ const LogIn = () => {
         <Image
           className="py-4"
           src="/logo.svg"
-          alt="groove logo"
+          alt="Groove Logo"
           width="100"
           height="100"
         />
