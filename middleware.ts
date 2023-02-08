@@ -13,7 +13,7 @@ export const config = {
   ],
 };
 
-export default function middleware(req: NextRequest) {
+export default function middleware(req: NextRequest, res: NextResponse) {
   const token = req.cookies.get("GROOVE_ACCESS_TOKEN")?.value;
   const authPage = new URL("/login", req.url);
   if (!token) {

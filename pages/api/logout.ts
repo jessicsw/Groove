@@ -1,18 +1,17 @@
 import cookie from "cookie";
-import { NextApiResponse } from "next";
+import { NextApiResponse, NextApiRequest } from "next";
 
-export default async function logout(res: NextApiResponse) {
-  try {
-    res.setHeader(
-      "Set-Cookie",
-      cookie.serialize("GROOVE_ACCESS_TOKEN", "", {
-        httpOnly: true,
-        maxAge: 0,
-      })
-    );
+export default async function logout(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  res.setHeader(
+    "Set-Cookie",
+    cookie.serialize("GROOVE_ACCESS_TOKEN", "", {
+      expires: new Date(0),
+      path: "/",
+    })
+  );
 
-    return res;
-  } catch (error) {
-    res.status(200).send("Successfully logged out");
-  }
+  return res.status(200).json({ success: "Succesfully logged out" });
 }
