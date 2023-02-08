@@ -2,7 +2,7 @@ const GradientSkeleton = () => {
   return (
     <div
       role="status"
-      className="flex h-[300px] animate-pulse items-center space-y-8 space-x-8 pl-7"
+      className="flex h-[300px] animate-pulse items-center space-y-8 space-x-8  pl-7"
     >
       <div className="flex items-end">
         <div className="h-[230px] w-[230px]">

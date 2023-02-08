@@ -65,9 +65,9 @@ const Sidebar = () => {
   return (
     <div className="h-[calc(100vh-100px)] w-full bg-black p-5 text-gray-400">
       <div className="h-full">
-        <div className="w-full pb-5">
-          <Logo />
-          <span className="pl-5 text-white">Groove</span>
+        <div className="flex items-center justify-center pb-5">
+          <span className=" text-white">Groove</span>
+          <Logo className="h-16" />
         </div>
         <div className="h-[200px]">
           <ul className="mb-9 text-gray-300">

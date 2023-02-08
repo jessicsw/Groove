@@ -9,8 +9,8 @@ const LogIn = () => {
   return (
     <div className="h-screen w-screen bg-black text-sm text-white">
       <div className="flex items-center justify-center">
-        <div className="pr-5 text-lg">Groove</div>
-        <Logo />
+        <div className="pr-1 text-lg">Groove</div>
+        <Logo className="py-4" />
       </div>
       <Divider className="bg-gray-700" />
       <div className="m-auto w-[380px]">
