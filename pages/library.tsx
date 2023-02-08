@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { TfiMusicAlt } from "react-icons/tfi";
-import { fetchPlaylists, fetcherUser } from "../lib/fetchers";
+import { fetchPlaylists, fetchUser } from "../lib/fetchers";
 import useSWR from "swr";
 import { v4 as uuidv4 } from "uuid";
 import { addPlaylist } from "../lib/mutations";
+import Logout from "@/components/Logout";
 
 type Playlist = {
   id: number;
@@ -56,9 +57,12 @@ const Library = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-100px)] w-full overflow-y-scroll bg-gradient-to-b from-purple-500 to-black p-9">
+    <div className="relative h-[calc(100vh-100px)] w-full overflow-y-scroll bg-gradient-to-b from-purple-500 to-black p-9">
+      <div className="absolute right-0 top-0">
+        <Logout />
+      </div>
       {playlists?.length !== 0 ? (
-        <div className="grid-col-4 grid gap-5 py-3">
+        <div className="grid-col-4 grid gap-5 pt-10 pb-3">
           {playlists?.map((playlist) => (
             <div
               key={playlist.name}

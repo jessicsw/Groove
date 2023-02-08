@@ -6,6 +6,7 @@ import { addSong } from "../lib/mutations";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import useSWR from "swr";
+import Logout from "@/components/Logout";
 
 type Artist = {
   id: number;
@@ -63,7 +64,10 @@ const Search = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-100px)] w-full flex-col items-center  bg-gradient-to-b from-indigo-500 to-black p-5 text-white">
+    <div className="relative flex h-[calc(100vh-100px)] w-full flex-col items-center  bg-gradient-to-b from-indigo-500 to-black p-5 text-white">
+      <div className="absolute right-0 top-0">
+        <Logout />
+      </div>
       <div className="min-w-[301px] max-w-[301px] py-5">
         <label className="text-xl font-semibold" htmlFor="search">
           Find songs to add to your playlist

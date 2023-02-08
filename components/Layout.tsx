@@ -1,7 +1,6 @@
 import { PropsWithChildren } from "react";
 import Sidebar from "./Sidebar";
 import PlayerBar from "./PlayerBar";
-import Logout from "./Logout";
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
@@ -10,9 +9,6 @@ const Layout = ({ children }: PropsWithChildren) => {
         <Sidebar />
       </div>
       <div className="relative ml-[250px] h-[calc(100vh-100px)]">
-        <div className="absolute right-0">
-          <Logout />
-        </div>
         {children}
       </div>
       <div className="absolute left-0 bottom-0 h-[100px] w-full">

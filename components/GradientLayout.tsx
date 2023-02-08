@@ -1,6 +1,7 @@
 import { useEffect, useState, PropsWithChildren, ReactElement } from "react";
 import Image from "next/image";
 import GradientSkeleton from "./skeletons/GradientSkeleton";
+import Logout from "./Logout";
 
 type GradientLayoutProps = {
   color: string;
