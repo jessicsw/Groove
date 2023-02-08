@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import useSWR from "swr";
 import { MouseEventHandler } from "react";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
+import Logo from "../public/logo.svg";
 
 type Playlist = {
   UpdatedAt: Date;
@@ -65,13 +66,7 @@ const Sidebar = () => {
     <div className="h-[calc(100vh-100px)] w-full bg-black p-5 text-gray-400">
       <div className="h-full">
         <div className="w-full pb-5">
-          <Image
-            className="inline"
-            src="/logo.svg"
-            alt="groove logo"
-            height="50"
-            width="50"
-          />
+          <Logo />
           <span className="pl-5 text-white">Groove</span>
         </div>
         <div className="h-[200px]">

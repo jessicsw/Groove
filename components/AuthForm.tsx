@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { authorizeLogin, createUser } from "../lib/mutations";
 import Image from "next/image";
+import Spinner from "../public/loader.svg";
 
 type AuthFormProps = {
   mode: "login" | "signup";
@@ -106,13 +107,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
             className="inline-flex h-12 w-36 items-center justify-center rounded-full bg-[#3857aa] py-2.5 px-5 text-sm font-bold text-white hover:h-[50px] hover:w-[146px] focus:h-[50px] focus:w-[146px]"
           >
             {isLoading ? (
-              <Image
-                src="/loader.svg"
-                alt="Loading spinner"
-                className="inline h-4 w-4 animate-spin text-gray-200 dark:text-gray-600"
-                width="15"
-                height="15"
-              />
+              <Spinner className="inline h-4 w-4 animate-spin text-gray-200 dark:text-gray-300" />
             ) : mode === "login" ? (
               "LOG IN"
             ) : (

@@ -1,18 +1,13 @@
 import { Divider } from "@mui/material";
 import Image from "next/image";
+import Logo from "../../public/logo.svg";
 
 const SidebarSkeleton = () => {
   return (
     <div className="h-[calc(100vh-100px)] w-full bg-black p-5 text-gray-400">
       <div className="h-full">
         <div className="w-full pb-7">
-          <Image
-            className="inline"
-            src="/logo.svg"
-            alt="groove logo"
-            height="50"
-            width="50"
-          />
+          <Logo />
           <span className="pl-5 text-white">Groove</span>
         </div>
         <div className="animate-pulse delay-500 duration-700 ease-in-out">
