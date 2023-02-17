@@ -40,11 +40,11 @@ const Sidebar = () => {
       };
 
       try {
-        mutatePlaylists([...playlists, newPlaylist] as Playlist[], false);
+        await mutatePlaylists([...playlists, newPlaylist] as Playlist[], false);
 
         const json = await addPlaylist(newPlaylist);
 
-        mutatePlaylists(
+        await mutatePlaylists(
           (playlists) =>
             playlists?.map((playlist) => {
               return `${playlist.id}` === tempId ? json : playlist;

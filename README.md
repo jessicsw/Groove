@@ -139,20 +139,20 @@ const Sidebar = () => {
 
       try {
         // Updates client-side cache with the new playlist object to immediately display new playlist in the UI
-        mutatePlaylists([...playlists, newPlaylist] as Playlist[], false);
+        await mutatePlaylists([...playlists, newPlaylist] as Playlist[], false);
 
         // POST request to create a new playlist in the database
         const json = await addPlaylist(newPlaylist);
 
         // Updates client-side cache using the canonical ID from the server json response
-        mutatePlaylists(
+        await mutatePlaylists(
           (playlists) =>
             playlists?.map((playlist) => {
               return `${playlist.id}` === tempId ? json : playlist;
             }) as Playlist[],
           false
         );
-        
+
         router.push(`/playlist/${json.id}`);
       } catch (error) {
         console.error("Error with mutating playlist");
