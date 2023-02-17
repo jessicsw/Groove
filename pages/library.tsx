@@ -30,17 +30,16 @@ const Library = () => {
     if (playlists) {
       newPlaylist = { name: `Playlist #${playlists.length + 1}` } as Playlist;
       try {
-        await mutatePlaylists(
-          [
-            ...playlists,
+        await mutatePlaylists((playlists) => {
+          return [
+            ...(playlists as Playlist[]),
             {
               ...newPlaylist,
               id: tempId,
               userId: user.id,
             },
-          ] as Playlist[],
-          false
-        );
+          ] as Playlist[];
+        }, false);
 
         const json = await addPlaylist(newPlaylist);
         await mutatePlaylists(
@@ -52,7 +51,7 @@ const Library = () => {
         );
         router.push(`/playlist/${json.id}`);
       } catch (error) {
-        console.error("Failed to create playlist from library");
+        console.error("Error creating playlist in library");
       }
     }
   };
@@ -81,7 +80,7 @@ const Library = () => {
                 {playlist.name}
               </div>
               <div className="text-[12px] text-gray-400">
-                By {user?.firstName}
+                By {user.firstName}
               </div>
             </div>
           ))}

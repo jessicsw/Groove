@@ -1,15 +1,16 @@
+import Image from "next/image";
+import Link from "next/link";
 import { Divider } from "@mui/material";
 import { navMenu } from "../lib/sidebarRoutes";
 import { MdPlaylistAdd, MdFavorite } from "react-icons/md";
 import { useRouter } from "next/router";
 import { addPlaylist } from "../lib/mutations";
 import { fetchPlaylists } from "../lib/fetchers";
-import { MouseEventHandler } from "react";
-import Link from "next/link";
+import { v4 as uuidv4 } from "uuid";
 import useSWR from "swr";
+import { MouseEventHandler } from "react";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import Logo from "../public/logo.svg";
-import { v4 as uuidv4 } from "uuid";
 
 type Playlist = {
   UpdatedAt: Date;
@@ -35,25 +36,28 @@ const Sidebar = () => {
     if (playlists) {
       const newPlaylist = {
         name: `Playlist #${playlists.length + 1}`,
-        id: tempId,
       };
 
       try {
-        await mutatePlaylists([...playlists, newPlaylist] as Playlist[], false);
+        mutatePlaylists((playlists) => {
+          return [
+            ...(playlists as Playlist[]),
+            { ...newPlaylist, id: tempId },
+          ] as Playlist[];
+        }, false);
 
         const json = await addPlaylist(newPlaylist);
 
-        await mutatePlaylists(
+        mutatePlaylists(
           (playlists) =>
             playlists?.map((playlist) => {
               return `${playlist.id}` === tempId ? json : playlist;
             }) as Playlist[],
           false
         );
-
         router.push(`/playlist/${json.id}`);
       } catch (error) {
-        console.error("Failed to add new playlist");
+        console.error("Error with mutating playlist");
       }
     }
   };
@@ -91,7 +95,7 @@ const Sidebar = () => {
           </ul>
           <Divider className="my-0 mx-auto bg-gray-700" />
         </div>
-        <div className="scroll h-[calc(100vh-405px)] overflow-y-auto">
+        <div className="scroll h-[calc(100vh-390px)] overflow-y-auto">
           <ul>
             {playlists?.map((playlist) => (
               <li className="py-1 text-sm" key={playlist.id}>
