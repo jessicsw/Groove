@@ -30,16 +30,17 @@ const Library = () => {
     if (playlists) {
       newPlaylist = { name: `Playlist #${playlists.length + 1}` } as Playlist;
       try {
-        await mutatePlaylists((playlists) => {
-          return [
-            ...(playlists as Playlist[]),
+        await mutatePlaylists(
+          [
+            ...playlists,
             {
               ...newPlaylist,
               id: tempId,
               userId: user.id,
             },
-          ] as Playlist[];
-        }, false);
+          ] as Playlist[],
+          false
+        );
 
         const json = await addPlaylist(newPlaylist);
         await mutatePlaylists(

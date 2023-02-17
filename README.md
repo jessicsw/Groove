@@ -117,7 +117,7 @@ Users may create a new playlist or add a new song to an existing playlist. With 
 
 ```javascript
 const Sidebar = () => {
-  // Creates a key value pair in the cache where the key is the URL of the API and the value is the returned data from fetchPlaylists
+  // Creates a key value pair in the cache where the key is the API route and the value is the returned data from fetchPlaylists
   const {
     data: playlists,
     mutate: mutatePlaylists,
@@ -134,16 +134,12 @@ const Sidebar = () => {
     if (playlists) {
       const newPlaylist = {
         name: `Playlist #${playlists.length + 1}`,
+        id: tempId
       };
 
       try {
         // Updates client-side cache with the new playlist object to immediately display new playlist in the UI
-        mutatePlaylists((playlists) => {
-          return [
-            ...(playlists as Playlist[]),
-            { ...newPlaylist, id: tempId },
-          ] as Playlist[];
-        }, false);
+        mutatePlaylists([...playlists, newPlaylist] as Playlist[], false);
 
         // POST request to create a new playlist in the database
         const json = await addPlaylist(newPlaylist);
@@ -156,6 +152,7 @@ const Sidebar = () => {
             }) as Playlist[],
           false
         );
+        
         router.push(`/playlist/${json.id}`);
       } catch (error) {
         console.error("Error with mutating playlist");

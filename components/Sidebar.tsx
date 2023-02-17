@@ -36,15 +36,11 @@ const Sidebar = () => {
     if (playlists) {
       const newPlaylist = {
         name: `Playlist #${playlists.length + 1}`,
+        id: tempId,
       };
 
       try {
-        mutatePlaylists((playlists) => {
-          return [
-            ...(playlists as Playlist[]),
-            { ...newPlaylist, id: tempId },
-          ] as Playlist[];
-        }, false);
+        mutatePlaylists([...playlists, newPlaylist] as Playlist[], false);
 
         const json = await addPlaylist(newPlaylist);
 
@@ -55,6 +51,7 @@ const Sidebar = () => {
             }) as Playlist[],
           false
         );
+
         router.push(`/playlist/${json.id}`);
       } catch (error) {
         console.error("Error with mutating playlist");
