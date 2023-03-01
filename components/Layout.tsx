@@ -8,7 +8,7 @@ const Layout = ({ children }: PropsWithChildren) => {
       <div className="absolute top-0 left-0 w-[250px]">
         <Sidebar />
       </div>
-      <div className="relative ml-[250px] h-[calc(100vh-100px)] bg-black bg-opacity-50">
+      <div className="relative ml-[250px] h-[calc(100vh-100px)]">
         {children}
       </div>
       <div className="absolute left-0 bottom-0 h-[100px] w-full">
