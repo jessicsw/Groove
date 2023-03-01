@@ -63,7 +63,6 @@ const Playlist = ({ playlist, user }: PlaylistProps) => {
       <GradientLayout
         isLoading={false}
         subtitle="playlist"
-        color={color}
         roundImage={false}
         title={playlist.name}
         description={

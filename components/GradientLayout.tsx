@@ -1,10 +1,9 @@
-import { useEffect, useState, PropsWithChildren, ReactElement } from "react";
+import { PropsWithChildren, ReactElement } from "react";
 import Image from "next/image";
 import GradientSkeleton from "./skeletons/GradientSkeleton";
 import Logout from "./Logout";
 
 type GradientLayoutProps = {
-  color: string;
   roundImage: boolean;
   image: string;
   subtitle: string;
@@ -14,7 +13,6 @@ type GradientLayoutProps = {
 };
 
 const GradientLayout = ({
-  color,
   children,
   roundImage,
   image,
@@ -23,24 +21,10 @@ const GradientLayout = ({
   description,
   isLoading,
 }: PropsWithChildren<GradientLayoutProps>) => {
-  const [bgColor, setbgColor] = useState<string | null>(null);
-  useEffect(() => {
-    const bgGradients = {
-      lime: "from-lime-600",
-      cyan: "from-cyan-600",
-      gray: "from-gray-600",
-      red: "from-red-600",
-      blue: "from-blue-600",
-    };
-
-    setbgColor(bgGradients[color as keyof typeof bgGradients]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   if (isLoading) return <GradientSkeleton />;
   return (
     <div
-      className={`relative h-full overflow-y-scroll bg-gradient-to-b ${bgColor} w-[calc(100vw-250px)] to-black text-white`}
+      className={`relative h-full w-[calc(100vw-250px)] overflow-y-scroll bg-gradient-to-b from-cyan-600 to-black text-white`}
     >
       <div className="absolute right-0">
         <Logout />

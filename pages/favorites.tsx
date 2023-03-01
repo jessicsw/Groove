@@ -45,7 +45,6 @@ const Favorites = ({ user }: { user: UserData }) => {
   return (
     <GradientLayout
       isLoading={false}
-      color="blue"
       roundImage={false}
       image="/favorites.jpg"
       subtitle="playlist"

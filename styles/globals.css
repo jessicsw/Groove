@@ -14,20 +14,3 @@
 *::-webkit-scrollbar-thumb {
     @apply bg-white bg-opacity-50 rounded-md;
 }
-
-*::-webkit-scrollbar-track {
-    /* background-color: blue; */
-
-}
-/* @layer base {
-  html {
-    font-family: Proxima Nova, sans-serif;
-    font-weight: 400;
-    src: url(/fonts/proxima-nova/400-regular.woff) format("woff");
-  }
-  @font-face {
-    font-family: Proxima Nova;
-    font-weight: 500;
-    src: url(/fonts/proxima-nova/500-medium.woff) format("woff");
-  }
-} */

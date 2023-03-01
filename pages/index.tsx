@@ -31,7 +31,6 @@ export default function Home({ artists, songs }: HomeProps) {
 
   return (
     <GradientLayout
-      color="cyan"
       roundImage={true}
       title={`${user?.firstName} ${user?.lastName}`}
       description={`${user?._count.playlists} Public Playlists • 3 Followers • 3 Following`}
