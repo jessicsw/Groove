@@ -2,9 +2,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { TfiMusicAlt } from "react-icons/tfi";
 import { fetchPlaylists, fetchUser } from "../lib/fetchers";
-import useSWR from "swr";
-import { v4 as uuidv4 } from "uuid";
 import { addPlaylist } from "../lib/mutations";
+import { v4 as uuidv4 } from "uuid";
+import useSWR from "swr";
+import LibrarySkeleton from "@/components/skeletons/LibrarySkeleton";
 import Logout from "@/components/Logout";
 
 type Playlist = {
@@ -17,10 +18,11 @@ type Playlist = {
 
 const Library = () => {
   const router = useRouter();
-  const { data: playlists, mutate: mutatePlaylists } = useSWR(
-    "/api/playlist",
-    fetchPlaylists
-  );
+  const {
+    data: playlists,
+    mutate: mutatePlaylists,
+    isLoading,
+  } = useSWR("/api/playlist", fetchPlaylists);
   const { data: user } = useSWR("/api/me", fetchUser);
 
   const handleCreatePlaylist = async () => {
@@ -57,6 +59,7 @@ const Library = () => {
     }
   };
 
+  if (isLoading) return <LibrarySkeleton />;
   return (
     <div className="relative h-[calc(100vh-100px)] w-full overflow-y-scroll bg-gradient-to-b from-purple-500 to-black p-9">
       <div className="absolute right-0 top-0">
