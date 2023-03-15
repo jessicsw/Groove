@@ -6,7 +6,7 @@ Check out the demo [here](https://groove-delta.vercel.app/).
 
 Groove utilizes the following:
 
-* NextJS
+* Next.js
 * React
 * PostgreSQL
 * Prisma
