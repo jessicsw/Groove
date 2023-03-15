@@ -23,8 +23,7 @@ export default async function signup(
       },
     });
   } catch (e) {
-    res.status(401);
-    res.json({ error: "User already exists" });
+    res.status(401).json({ error: "User already exists" });
     return;
   }
 

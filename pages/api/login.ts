@@ -41,7 +41,6 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
     );
     res.json(user);
   } else {
-    res.status(401);
-    res.json({ error: "Email or password is wrong" });
+    res.status(401).json({ error: "Email or password is wrong" });
   }
 }

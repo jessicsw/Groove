@@ -35,41 +35,45 @@ export default async function handler(
         throw new Error("Not real user");
       }
     } catch (error) {
-      res.status(401);
-      res.json({ error: "Not authorized" });
+      res.status(401).json({ error: "Not authorized" });
       return;
     }
 
-    if (req.method === "POST") {
-      const { playlistId, songId } = req.body;
-      const playlistSongs = await prisma.song.update({
-        where: { id: +songId },
-        data: {
-          playlists: {
-            connect: { id: +playlistId },
+    switch (req.method) {
+      case "POST": {
+        const { playlistId, songId } = req.body;
+        const playlistSongs = await prisma.song.update({
+          where: { id: +songId },
+          data: {
+            playlists: {
+              connect: { id: +playlistId },
+            },
           },
-        },
-      });
+        });
 
-      res.json(playlistSongs);
+        res.json(playlistSongs);
+        break;
+      }
+      case "GET": {
+        const { playlistId } = req.query as { playlistId: string };
+        if (playlistId) {
+          const playlistSongs = await prisma.playlist.findUnique({
+            where: { id: parseInt(playlistId) },
+            select: {
+              songs: true,
+            },
+          });
+
+          res.json(playlistSongs?.songs);
+        } else {
+          const songs = await prisma.song.findMany();
+          res.json(songs);
+        }
+        break;
+      }
+      default: {
+        res.status(401).json({ error: "Error with playlist songs" });
+      }
     }
-
-    const { playlistId } = req.query as { playlistId: string };
-    if (req.method === "GET" && playlistId) {
-      const playlistSongs = await prisma.playlist.findUnique({
-        where: { id: parseInt(playlistId) },
-        select: {
-          songs: true,
-        },
-      });
-
-      res.json(playlistSongs?.songs);
-    } else if (req.method === "GET") {
-      const songs = await prisma.song.findMany();
-      res.json(songs);
-    }
-  } else {
-    res.status(401);
-    res.json({ error: "Not authorized" });
   }
 }

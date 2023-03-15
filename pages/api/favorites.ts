@@ -50,49 +50,56 @@ export default async function handler(
       return;
     }
 
-    if (req.method === "GET") {
-      const data = await prisma.user.findUnique({
-        where: { id: user.id },
-        select: {
-          favorites: true,
-        },
-      });
-      const favorites = data?.favorites;
-      res.json(favorites);
-    }
-
-    const { songId, mode } = req.body;
-
-    if (req.method === "POST" && mode === "connect") {
-      const data = await prisma.user.update({
-        where: { id: user.id },
-        data: {
-          favorites: {
-            connect: { id: songId },
+    switch (req.method) {
+      case "GET": {
+        const data = await prisma.user.findUnique({
+          where: { id: user.id },
+          select: {
+            favorites: true,
           },
-        },
-        select: {
-          favorites: true,
-        },
-      });
-      const favorites = data?.favorites;
-      res.json(favorites);
-    } else if (req.method === "POST" && mode === "disconnect") {
-      const data = await prisma.user.update({
-        where: { id: user.id },
-        data: {
-          favorites: {
-            disconnect: { id: songId },
-          },
-        },
-        select: {
-          favorites: true,
-        },
-      });
-      const favorites = data?.favorites;
-      res.json(favorites);
+        });
+        const favorites = data?.favorites;
+        res.json(favorites);
+        break;
+      }
+      case "POST": {
+        const { songId, mode } = req.body;
+        if (mode === "connect") {
+          const data = await prisma.user.update({
+            where: { id: user.id },
+            data: {
+              favorites: {
+                connect: { id: songId },
+              },
+            },
+            select: {
+              favorites: true,
+            },
+          });
+          const favorites = data?.favorites;
+          res.json(favorites);
+        }
+
+        if (mode === "disconnect") {
+          const data = await prisma.user.update({
+            where: { id: user.id },
+            data: {
+              favorites: {
+                disconnect: { id: songId },
+              },
+            },
+            select: {
+              favorites: true,
+            },
+          });
+          const favorites = data?.favorites;
+          res.json(favorites);
+        }
+        break;
+      }
+      default: {
+        res.status(401).json({ error: "Error with favorites" });
+      }
     }
-  } else {
-    res.status(401).send("Error with favorites");
   }
 }

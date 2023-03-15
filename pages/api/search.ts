@@ -61,7 +61,6 @@ export default async function handler(
 
     res.json(songs);
   } else {
-    res.status(401);
-    res.json({ error: "Not authorized" });
+    res.status(401).json({ error: "Error with search" });
   }
 }

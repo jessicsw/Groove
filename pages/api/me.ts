@@ -48,8 +48,7 @@ export default async function handler(
         throw new Error("Not real user");
       }
     } catch (error) {
-      res.status(401);
-      res.json({ error: "Not authorized" });
+      res.status(401).json({ error: "Not authorized" });
       return;
     }
 
