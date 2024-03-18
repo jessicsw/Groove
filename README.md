@@ -1,6 +1,6 @@
 ## Groove
 
-Groove is a Spotify-inspired music streaming web application that includes features such as registration and login, song discovery, and music library. 
+Groove is a Spotify-inspired music streaming web application that includes features such as registration and login, song discovery, and music library.  
 
 Check out the demo [here](https://groove-delta.vercel.app/).
 
