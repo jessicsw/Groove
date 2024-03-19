@@ -41,11 +41,16 @@ const AuthForm = ({ mode }: AuthFormProps) => {
           ? "To continue, log in to Groove."
           : "Sign up with your email address"}
       </div>
-      {error ? (
+      {error && mode === "login" && (
         <div className="rounded-sm bg-red-500 p-3">
           Incorrect username or password.
         </div>
-      ) : null}
+      )}
+      {error && mode === "signup" && (
+        <div className="rounded-sm bg-red-500 p-3">
+          Please fill out all the input fields.
+        </div>
+      )}
       <form
         id={mode}
         onSubmit={handleSubmit}
@@ -75,7 +80,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
         </label>
         {mode === "signup" && (
           <label className="mt-2 flex w-full flex-col" htmlFor="firstName">
-            What&quot;s your first name?
+            What&#39;s your first name?
             <input
               id="firstName"
               onChange={(e) => setFirstName(e.target.value)}
@@ -88,7 +93,7 @@ const AuthForm = ({ mode }: AuthFormProps) => {
         )}
         {mode === "signup" && (
           <label className="mt-2 flex w-full flex-col" htmlFor="lastName">
-            What&quot;s your last name?
+            What&#39;s your last name?
             <input
               id="lastName"
               onChange={(e) => setLastName(e.target.value)}
