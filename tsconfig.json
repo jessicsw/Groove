@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "../components/*": ["components/*"]
+      "../components/*": ["components/*"],
+      "react": ["./node_modules/@types/react"]
     }
   },
   "typeAcquisition": {

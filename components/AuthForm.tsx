@@ -1,7 +1,6 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/router";
 import { authorizeLogin, createUser } from "../lib/mutations";
-import Image from "next/image";
 import Spinner from "../public/loader.svg";
 
 type AuthFormProps = {
